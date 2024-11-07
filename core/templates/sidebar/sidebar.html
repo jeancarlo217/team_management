@@ -1,0 +1,30 @@
+{% load static %}
+
+<div class="sidebar" id="sidebar">
+    <div class="system-icon">
+        <img src="{% static 'images/system_icon.png' %}" alt="">
+        <img id="system-icon-expand" alt="icone_eco_balance">
+    </div>
+
+    <div class="btns-menu">
+        
+        <a href="{% url 'index' %}" class="btn-menu-item active">
+
+            <span>Inventário</span>
+        </a>
+
+        <button class="btn-menu-item" name="dashboard">
+
+            Dashboard
+        </button>
+
+        <button class="btn-menu-item" name="client-data">
+
+            Clientes
+        </button>
+        
+    </div>
+
+
+    
+</div>
