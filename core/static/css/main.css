@@ -90,7 +90,6 @@ html::-webkit-scrollbar {
   --primary: 237, 94%, 81%;
   --background: 266, 16%, 92%;
   --background-secondary: 256, 12%, 12%;
-  --background-secondary-dark: 256, 10%, 10%;
   --text-primary: 0, 0%, 0%;
   /* Colors */
   --black: 0, 0%, 0%;
@@ -355,7 +354,6 @@ select {
   margin: 0 0 2em 0;
   width: 100%;
   height: 5em;
-  background: hsl(var(--background-secondary-dark));
 }
 .navbar-logo > .navbar-item-inner {
   width: calc(5rem - 8px);
