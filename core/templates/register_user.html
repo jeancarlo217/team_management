@@ -12,56 +12,32 @@
     <main id="main" class="flexbox-col">
 
         <div class="container">
-            <form>
-
+            <form method="post">
+            {% csrf_token %}
             <div class="row">
 
-                <h4>Cadastro de Propriedade</h4>
-
+                <h4>Cadastro de Usuários</h4>
+                <br>
                 <div class="input-group input-group-icon">
-                <input type="text" placeholder="Nome da Propriedade" />
-                <div class="input-icon">
-                    <i class="fa fa-user"></i>
-                </div>
-                </div>
+                    <div>
+                        <input autocomplete="off" type="text" placeholder="Nome" />
+                    </div>
 
-                <div class="input-group input-group-icon">
-                <input placeholder="Área (ha)" />
-                <div class="input-icon">
-                    <i class="fa fa-envelope"></i>
-                </div>
-
-                <input placeholder="Matrícula" />
-                <div class="input-icon">
-                    <i class="fa fa-key"></i>
-                </div>
+                    <div>
+                        <input autocomplete="off" type="text" placeholder="Sobrenome" />
+                    </div>
                 </div>
 
                 <div class="input-group input-group-icon">
-                <input placeholder="CCIR" />
-                <div class="input-icon">
-                    <i class="fa fa-envelope"></i>
+                    <input autocomplete="off" placeholder="E-mail" />
                 </div>
 
-                <input placeholder="Valor" />
-                <div class="input-icon">
-                    <i class="fa fa-key"></i>
-                </div>
-                </div>
-
-                <div class="input-group input-group-icon">
-                <input placeholder="Número de Proprietários" />
-                <div class="input-icon">
-                    <i class="fa fa-envelope"></i>
-                </div>
-
-                <input placeholder="Município" />
-                <div class="input-icon">
-                    <i class="fa fa-key"></i>
-                </div>
+                <div autocomplete="off" class="input-group input-group-icon">
+                    <input placeholder="Senha"/>
                 </div>
 
             </div>
+            <button type="submit">Adicionar</button>
             
             </form>
         </div>
