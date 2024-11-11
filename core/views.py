@@ -18,3 +18,13 @@ class LoginView(LoginView):
 class IndexView(LoginRequiredMixin, TemplateView):
     template_name = 'index.html'
     login_url = '/login'
+
+
+class ProjectView(LoginRequiredMixin, TemplateView):
+    template_name = 'project.html'
+    login_url = '/login'
+
+
+class RegisterUserView(LoginRequiredMixin, TemplateView):
+    template_name = 'register_user.html'
+    login_url = '/login'
