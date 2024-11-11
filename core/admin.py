@@ -1,12 +1,10 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
-
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 from .models import User
 
-
 @admin.register(User)
-class UserAdmin(UserAdmin):
+class CustomUserAdmin(BaseUserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     model = User
@@ -16,5 +14,12 @@ class UserAdmin(UserAdmin):
         (None, {'fields': ('email', 'password')}),
         ('Informações Pessoais', {'fields': ('perfil', 'tipo', 'first_name', 'last_name')}),
         ('Permissões', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
-        ('Datas', {'fields': ('last_login', 'date_joined')})
+        ('Datas', {'fields': ('last_login', 'date_joined')}),
+    )
+
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('email', 'password1', 'password2', 'perfil', 'tipo', 'first_name', 'last_name'),
+        }),
     )

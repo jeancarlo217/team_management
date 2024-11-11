@@ -5,8 +5,7 @@ from stdimage.models import StdImageField
 class UserManager(BaseUserManager):
     use_in_migrations = True
 
-    def _create_user(self,  email, password, **extra_fields):
-
+    def _create_user(self, email, password, **extra_fields):
         if not email:
             raise ValueError('O campo de e-mail é obrigatório!')
         
@@ -14,12 +13,10 @@ class UserManager(BaseUserManager):
         user = self.model(email=email, username=email, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
-
         return user
     
     def create_user(self, email, password=None, **extra_fields):
         extra_fields.setdefault('is_superuser', False)
-
         return self._create_user(email, password, **extra_fields)
     
     def create_superuser(self, email, password, **extra_fields):
@@ -42,7 +39,7 @@ class User(AbstractUser):
         ('CLI_V2', 'Cliente V2'),
         ('DEV', 'Desenvolvimento'),
     ]
-    perfil =  StdImageField(
+    perfil = StdImageField(
         upload_to='perfil/',
         delete_orphans=True,
         blank=True,
