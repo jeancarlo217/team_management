@@ -10,7 +10,190 @@
   {% include 'sidebar.html' %}
 
 
-  <h1>Projetos</h1>
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Management System</title>
+  <style>
+    /* Estilos gerais */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h1 {
+      color: #333;
+    }
+
+    /* Estilos para o botão "Novo Projeto" */
+    .new-project-btn {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+    .new-project-btn:hover {
+      background-color: #45a049;
+    }
+
+    /* Estilos para o container dos cards */
+    .project-list {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+      max-width: 900px;
+    }
+
+    /* Estilos para os cards de projeto */
+    .project-card {
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      width: 200px;
+      padding: 15px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .project-card:hover {
+      transform: scale(1.05);
+    }
+    .project-card h2 {
+      font-size: 18px;
+      color: #333;
+      margin: 0 0 10px 0;
+    }
+    .project-card p {
+      color: #777;
+      font-size: 14px;
+    }
+
+    /* Estilos para a tabela de tarefas */
+    .task-table-container {
+      width: 100%;
+      max-width: 900px;
+      margin-top: 20px;
+      display: none;
+    }
+    .task-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .task-table th, .task-table td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    .task-table th {
+      background-color: #4CAF50;
+      color: white;
+    }
+    .task-table td {
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Project Management System</h1>
+  
+  <button class="new-project-btn">+ New Project</button>
+
+  <!-- Lista de projetos em formato de card -->
+  <div class="project-list">
+    <div class="project-card" onclick="showTasks('Project Alpha')">
+      <h2>Project Alpha</h2>
+      <p>A brief description of Project Alpha.</p>
+    </div>
+    <div class="project-card" onclick="showTasks('Project Beta')">
+      <h2>Project Beta</h2>
+      <p>A brief description of Project Beta.</p>
+    </div>
+    <div class="project-card" onclick="showTasks('Project Gamma')">
+      <h2>Project Gamma</h2>
+      <p>A brief description of Project Gamma.</p>
+    </div>
+  </div>
+
+  <!-- Tabela de tarefas do projeto selecionado -->
+  <div class="task-table-container" id="task-table-container">
+    <h2 id="project-title">Tasks for Project</h2>
+    <table class="task-table">
+      <thead>
+        <tr>
+          <th>Task Name</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Deadline</th>
+        </tr>
+      </thead>
+      <tbody id="task-table-body">
+        <!-- Linhas das tarefas serão adicionadas dinamicamente -->
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    // Dados de exemplo das tarefas
+    const tasksData = {
+      'Project Alpha': [
+        { name: 'Task A1', description: 'Description of Task A1', status: 'Pending', deadline: '2024-12-01' },
+        { name: 'Task A2', description: 'Description of Task A2', status: 'In Progress', deadline: '2024-12-10' }
+      ],
+      'Project Beta': [
+        { name: 'Task B1', description: 'Description of Task B1', status: 'Completed', deadline: '2024-11-15' },
+        { name: 'Task B2', description: 'Description of Task B2', status: 'Pending', deadline: '2024-11-20' }
+      ],
+      'Project Gamma': [
+        { name: 'Task C1', description: 'Description of Task C1', status: 'In Progress', deadline: '2024-12-05' },
+        { name: 'Task C2', description: 'Description of Task C2', status: 'Pending', deadline: '2024-12-15' }
+      ]
+    };
+
+    // Função para mostrar as tarefas de um projeto
+    function showTasks(projectName) {
+      const taskTableContainer = document.getElementById('task-table-container');
+      const projectTitle = document.getElementById('project-title');
+      const taskTableBody = document.getElementById('task-table-body');
+
+      // Atualiza o título com o nome do projeto
+      projectTitle.innerText = `Tasks for ${projectName}`;
+
+      // Limpa as linhas existentes na tabela de tarefas
+      taskTableBody.innerHTML = '';
+
+      // Preenche a tabela com as tarefas do projeto selecionado
+      const tasks = tasksData[projectName];
+      tasks.forEach(task => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${task.name}</td>
+          <td>${task.description}</td>
+          <td>${task.status}</td>
+          <td>${task.deadline}</td>
+        `;
+        taskTableBody.appendChild(row);
+      });
+
+      // Exibe a tabela de tarefas
+      taskTableContainer.style.display = 'block';
+    }
+  </script>
+
+</body>
+</html>
+
 
 
 </body>

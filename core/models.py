@@ -53,15 +53,46 @@ class User(AbstractUser):
     REQUIRED_FIELDS = ['first_name']
 
     def __str__(self):
-        return self.email
+        return self.first_name
     
     objects = UserManager()
 
 
-class Base(models.Model):
-    created = models.DateField('Creation', auto_now_add=True)
-    modified = models.DateField('Update', auto_now=True)
-    active = models.BooleanField('Active?', default=True)
+class Project(models.Model):
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True, null=True)
 
-    class Meta:
-        abstract = True
+    def __str__(self):
+        return self.name
+
+
+class Tesk(models.Model):
+    STATUS_CHOICES = [
+        ('pending', 'Pendente'),
+        ('in_progress', 'Em Progresso'),
+        ('completed', 'Concluída'),
+    ]
+    
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True, null=True)
+    status = models.CharField(max_length=50, choices=STATUS_CHOICES)
+    deadline = models.DateField(blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+
+class UserTesk(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    tesk = models.ForeignKey(Tesk, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.user.first_name} - {self.tesk.name}"
+
+
+class TeskProject(models.Model):
+    tesk = models.ForeignKey(Tesk, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.tesk.name} - {self.project.name}"
