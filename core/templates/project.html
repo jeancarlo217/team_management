@@ -16,6 +16,7 @@
 
     <!-- Lista de projetos em formato de card -->
      <div class="project-menu">
+
        <div class="project-list">
          <div class="project-card" onclick="showTasks('Project Alpha')">
            <h2>Project Alpha</h2>
@@ -30,24 +31,25 @@
            <p>A brief description of Project Gamma.</p>
          </div>
        </div>
-   
-       <!-- Tabela de tarefas do projeto selecionado -->
+
        <div class="task-table-container" id="task-table-container">
-         <h2 id="project-title">Tasks for Project</h2>
-         <table class="task-table">
-           <thead>
-             <tr>
-               <th>Task Name</th>
-               <th>Description</th>
-               <th>Status</th>
-               <th>Deadline</th>
-             </tr>
-           </thead>
-           <tbody id="task-table-body">
-             <!-- Linhas das tarefas serão adicionadas dinamicamente -->
-           </tbody>
-         </table>
-       </div>
+        <h2 id="project-title">Projects</h2>
+        <ul class="responsive-table">
+
+          <li class="table-header">
+            <div class="col col-1">Nome</div>
+            <div class="col col-2">Descrição</div>
+            <div class="col col-3">Status</div>
+            <div class="col col-4">Prazo</div>
+          </li>
+
+        </ul>
+
+        <ul class="table-header task-table-body">
+        </ul>
+
+      </div>
+
      </div>
 
     <script>
@@ -82,12 +84,12 @@
         // Preenche a tabela com as tarefas do projeto selecionado
         const tasks = tasksData[projectName];
         tasks.forEach(task => {
-          const row = document.createElement('tr');
+          const row = document.createElement('li');
           row.innerHTML = `
-            <td>${task.name}</td>
-            <td>${task.description}</td>
-            <td>${task.status}</td>
-            <td>${task.deadline}</td>
+            <div class="col col-1" data-label="Job Id">${task.name}</div>
+            <div class="col col-2" data-label="Customer Name">${task.description}</div>
+            <div class="col col-3" data-label="Amount">${task.status}</div>
+            <div class="col col-4" data-label="Payment Status">${task.deadline}</div>
           `;
           taskTableBody.appendChild(row);
         });
