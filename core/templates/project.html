@@ -15,38 +15,40 @@
     <button class="new-project-btn">+ New Project</button>
 
     <!-- Lista de projetos em formato de card -->
-    <div class="project-list">
-      <div class="project-card" onclick="showTasks('Project Alpha')">
-        <h2>Project Alpha</h2>
-        <p>A brief description of Project Alpha.</p>
-      </div>
-      <div class="project-card" onclick="showTasks('Project Beta')">
-        <h2>Project Beta</h2>
-        <p>A brief description of Project Beta.</p>
-      </div>
-      <div class="project-card" onclick="showTasks('Project Gamma')">
-        <h2>Project Gamma</h2>
-        <p>A brief description of Project Gamma.</p>
-      </div>
-    </div>
-
-    <!-- Tabela de tarefas do projeto selecionado -->
-    <div class="task-table-container" id="task-table-container">
-      <h2 id="project-title">Tasks for Project</h2>
-      <table class="task-table">
-        <thead>
-          <tr>
-            <th>Task Name</th>
-            <th>Description</th>
-            <th>Status</th>
-            <th>Deadline</th>
-          </tr>
-        </thead>
-        <tbody id="task-table-body">
-          <!-- Linhas das tarefas serão adicionadas dinamicamente -->
-        </tbody>
-      </table>
-    </div>
+     <div class="project-menu">
+       <div class="project-list">
+         <div class="project-card" onclick="showTasks('Project Alpha')">
+           <h2>Project Alpha</h2>
+           <p>A brief description of Project Alpha.</p>
+         </div>
+         <div class="project-card" onclick="showTasks('Project Beta')">
+           <h2>Project Beta</h2>
+           <p>A brief description of Project Beta.</p>
+         </div>
+         <div class="project-card" onclick="showTasks('Project Gamma')">
+           <h2>Project Gamma</h2>
+           <p>A brief description of Project Gamma.</p>
+         </div>
+       </div>
+   
+       <!-- Tabela de tarefas do projeto selecionado -->
+       <div class="task-table-container" id="task-table-container">
+         <h2 id="project-title">Tasks for Project</h2>
+         <table class="task-table">
+           <thead>
+             <tr>
+               <th>Task Name</th>
+               <th>Description</th>
+               <th>Status</th>
+               <th>Deadline</th>
+             </tr>
+           </thead>
+           <tbody id="task-table-body">
+             <!-- Linhas das tarefas serão adicionadas dinamicamente -->
+           </tbody>
+         </table>
+       </div>
+     </div>
 
     <script>
       // Dados de exemplo das tarefas
