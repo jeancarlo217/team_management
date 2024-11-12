@@ -607,3 +607,93 @@ width: 33.33333333%;
 .col-third:last-of-type {
 padding-right: 0;
 }
+
+
+
+
+/* Estilos gerais */
+.project-body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h1 {
+  color: #333;
+}
+
+/* Estilos para o botão "Novo Projeto" */
+.new-project-btn {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+.new-project-btn:hover {
+  background-color: #45a049;
+}
+
+/* Estilos para o container dos cards */
+.project-list {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  max-width: 900px;
+}
+
+/* Estilos para os cards de projeto */
+.project-card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  width: 200px;
+  padding: 15px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.project-card:hover {
+  transform: scale(1.05);
+}
+.project-card h2 {
+  font-size: 18px;
+  color: #333;
+  margin: 0 0 10px 0;
+}
+.project-card p {
+  color: #777;
+  font-size: 14px;
+}
+
+/* Estilos para a tabela de tarefas */
+.task-table-container {
+  width: 100%;
+  max-width: 900px;
+  margin-top: 20px;
+  display: none;
+}
+.task-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.task-table th, .task-table td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+.task-table th {
+  background-color: #4CAF50;
+  color: white;
+}
+.task-table td {
+  color: #555;
+}
