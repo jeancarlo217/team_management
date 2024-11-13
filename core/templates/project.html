@@ -7,9 +7,10 @@
 
 <body>
 
-  {% include 'sidebar.html' %}
+    {% include 'sidebar.html' %}
 
-  <div class="project-body">
+<div class="project-body">
+    <!-- Painel de Projetos -->
     <div class="project-menu">
         <div class="project-list">
             <div class="project-card" onclick="showTasks('Project Alpha')">
@@ -29,7 +30,7 @@
             <button class="new-project-btn">+ Adicionar um cartão</button>
         </div>
 
-        <!-- Container para a tabela de tarefas -->
+        <!-- Tabela de Tarefas -->
         <div class="task-table-container" id="task-table-container">
             <ul class="responsive-table">
                 <li class="table-header">
@@ -40,6 +41,14 @@
                 </li>
             </ul>
             <ul class="responsive-table" id="task-table-body"></ul>
+        </div>
+
+        <!-- Gráficos de Estatísticas -->
+        <div class="chart-container">
+            <h3>Estatísticas do Projeto</h3>
+            <div class="chart" id="total-tasks-chart">Total de Tarefas: 0</div>
+            <div class="chart" id="completed-tasks-chart">Percentual Finalizado: 0%</div>
+            <div class="chart" id="pending-tasks-chart">Percentual Não Finalizado: 0%</div>
         </div>
     </div>
 
@@ -62,10 +71,16 @@
         function showTasks(projectName) {
             const taskTableContainer = document.getElementById('task-table-container');
             const taskTableBody = document.getElementById('task-table-body');
+            const totalTasksChart = document.getElementById('total-tasks-chart');
+            const completedTasksChart = document.getElementById('completed-tasks-chart');
+            const pendingTasksChart = document.getElementById('pending-tasks-chart');
 
             taskTableBody.innerHTML = '';
 
             const tasks = tasksData[projectName];
+            let completedCount = 0;
+            let totalTasks = tasks.length;
+
             tasks.forEach(task => {
                 const row = document.createElement('li');
                 row.classList.add('table-row');
@@ -76,12 +91,24 @@
                     <div class="col col-4" data-label="Prazo">${task.deadline}</div>
                 `;
                 taskTableBody.appendChild(row);
+
+                if (task.status === 'Completed') {
+                    completedCount++;
+                }
             });
+
+            let completedPercentage = ((completedCount / totalTasks) * 100).toFixed(2);
+            let pendingPercentage = (100 - completedPercentage).toFixed(2);
+
+            totalTasksChart.innerText = `Total de Tarefas: ${totalTasks}`;
+            completedTasksChart.innerText = `Percentual Finalizado: ${completedPercentage}%`;
+            pendingTasksChart.innerText = `Percentual Não Finalizado: ${pendingPercentage}%`;
 
             taskTableContainer.style.display = 'block';
         }
     </script>
 </div>
+
 
 
 
