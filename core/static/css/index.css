@@ -592,7 +592,7 @@ select {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   position: relative;
 }
-.responsive-table .table-header, .responsive-table .table-row, .new-task-btn {
+.responsive-table .table-header, .responsive-table .table-row {
   display: flex;
   justify-content: space-between;
   padding: 15px;
@@ -621,21 +621,21 @@ select {
 }
 
 .new-task-btn {
-  background-color: #fff;
-  border-radius: 8px;
-  padding: 20px;
+  border-radius: 4px;
+  padding: 10px;
   width: 100%;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   position: relative;
-
-  background-color: #ffffff;
+  background-color: #2b2b2b;
   box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
   margin-top: 10px;
+  color: white;
+  font-size: 14px;
+  font-family: sans-serif;
 }
 
 .new-task-btn:hover {
   transform: scale(1.02);
-  background-color: #f0f0f0;
+  background-color: #3b3b3b;
   cursor: pointer;
 }
 
@@ -681,4 +681,144 @@ select {
 
 .save-btn:hover {
   background-color: #45a049;
+}
+
+/* Modal CSS */
+.modal-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.container-form {
+  max-width: 800px;
+  background: #fff;
+  width: 800px;
+  padding: 25px 40px 10px 40px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+
+.container-form .text {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+  font-family: 'Lato', sans-serif;
+}
+
+.container-form form {
+  padding: 30px 0 30px 0;
+}
+
+.container-form form .form-row {
+  display: flex;
+  margin: 32px 0;
+}
+
+form .form-row .input-data,
+form .form-row .select-data {
+  outline: none;
+  width: 100%;
+  height: 40px;
+  margin: 0 20px;
+  position: relative;
+}
+
+form .form-row .textarea {
+  height: 70px;
+}
+
+.input-data input:focus ~ label,
+.input-data .custom-input:focus ~ label,
+
+.select-data select:focus ~ label,
+.select-data .custom-select:focus ~ label,
+
+.input-data input:not(:placeholder-shown) ~ label,
+.input-data .custom-input:not(:placeholder-shown) ~ label,
+
+.textarea textarea:focus ~ label,
+.textarea textarea:not(:placeholder-shown) ~ label,
+.select-data select:valid ~ label {
+    transform: translateY(-20px);
+    font-size: 14px;
+    color: green;
+}
+
+.textarea textarea {
+  resize: none;
+  padding-top: 10px;
+}
+
+.input-data label,
+.select-data label {
+  position: absolute;
+  pointer-events: none;
+  bottom: 10px;
+  font-size: 15px;
+  transition: all 0.3s ease;
+}
+
+.textarea label {
+  width: 100%;
+  bottom: 40px;
+}
+
+.input-data .custom-input,
+.select-data .custom-select,
+.textarea textarea {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: none;
+  font-size: 17px;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.12);
+}
+
+.input-data .underline,
+.select-data .underline {
+  position: absolute;
+  bottom: 0;
+  height: 1px;
+  width: 100%;
+}
+
+.input-data .underline:before,
+.select-data .underline:before {
+  position: absolute;
+  content: "";
+  height: 2px;
+  width: 100%;
+  background: green;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.3s ease;
+}
+
+.input-data input:focus ~ .underline:before,
+
+.input-data input:not(:placeholder-shown) ~ .underline:before,
+.input-data .custom-input:not(:placeholder-shown) ~ .underline:before,
+
+.select-data select:focus ~ .underline:before,
+.select-data select:valid ~ .underline:before,
+
+.textarea textarea:focus ~ .underline:before,
+.textarea textarea:not(:placeholder-shown) ~ .underline:before {
+  transform: scale(1);
+}
+
+.custom-select {
+  appearance: none;
+  font: inherit;
+  background: url(https://upload.wikimedia.org/wikipedia/commons/9/9d/Caret_down_font_awesome_whitevariation.svg) no-repeat right 0.8em center / 1.4em, linear-gradient(to left, #333 3em, transparent 3em);
+  color: inherit;
+  cursor: pointer;
 }

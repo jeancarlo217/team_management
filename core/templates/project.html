@@ -27,7 +27,7 @@
                 </div>
 
                 <!-- Botão "Novo Projeto" fixo na base -->
-                <button class="new-project-btn">+ Adicionar um cartão</button>
+                <button class="new-project-btn" id="new-project-btn">+ Adicionar um cartão</button>
             </div>
     
             <!-- Tabela de Tarefas -->
@@ -42,7 +42,7 @@
                 </ul>
                 <ul class="responsive-table" id="task-table-body"></ul>
                 <!-- Botão de Nova Task -->
-                <button class="new-task-btn">+ Nova Task</button>
+                <div class="new-task-btn">+ Nova Tarefa</div>
             </div>
     
             <!-- Área de edição -->
@@ -68,7 +68,45 @@
             </div>
         </div>
 
+        <div class="modal-container" id="modal-new-project" style="--m-background: rgba(0, 0, 0, 0.5);">
+            <div class="container-form">
+                <div class="text">
+                    Novo Projeto
+                </div>
+                
+                
+                <form action="#" method="post">
+                    {% csrf_token %}
+        
+                    <div class="form-row">
+        
+                        <div class="input-data">
+                            {{ project_form.name }}
+                            <div class="underline"></div>
+                            <label>Nome do Projeto</label>
+                        </div>
+        
+                    </div>
+        
+                    <div class="form-row">
+        
+                        <div class="input-data">
+                            {{ project_form.description }}
+                            <div class="underline"></div>
+                            <label>Descrição</label>
+                        </div>
+                        
+                    </div>
+        
+                    <button type="submit" class="btn-form">Salvar</button>
+                </form>
+        
+            </div>
+        </div>
+
         <script>
+            const newProject = document.getElementById('new-project-btn');
+
             const tasksData = {
                 'Project Alpha': [
                     { name: 'Task A1', description: 'Description of Task A1', status: 'Pending', deadline: '2024-12-01' },
@@ -130,6 +168,18 @@
             // Exibe o primeiro projeto como selecionado ao carregar a página
             document.addEventListener('DOMContentLoaded', () => {
                 showTasks('Project Alpha');
+            });
+
+            if(newProject) {
+                newProject.addEventListener('click', function() {
+                    document.getElementById('modal-new-project').style.display = 'flex';
+                });
+            };
+
+            window.addEventListener('click', function(event) {
+                if (event.target === document.getElementById('modal-new-project')) {
+                    document.getElementById('modal-new-project').style.display = 'none';
+                }
             });
         </script>
     </div>
