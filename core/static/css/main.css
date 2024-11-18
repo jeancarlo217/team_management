@@ -527,6 +527,13 @@ select {
   color: white;
 }
 
+.new-project-container {
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
+}
+
 /* Cards de Projeto */
 .project-card {
   background-color: #3b3b3b;
@@ -565,16 +572,27 @@ select {
   background-color: #45a049;
 }
 
+/* Efeito de seleção para projetos e tasks */
+.selected-project {
+  border: 2px solid #4CAF50;
+  transform: scale(1.05);
+}
+
+.selected-task {
+  background-color: #d0f0c0;
+  border-left: 4px solid #4CAF50;
+}
+
 /* Tabela de Tarefas */
 .task-table-container {
   background-color: #fff;
   border-radius: 8px;
   padding: 20px;
-  width: 60%;
-  max-width: 800px;
+  width: 58%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
-.responsive-table .table-header, .responsive-table .table-row {
+.responsive-table .table-header, .responsive-table .table-row, .new-task-btn {
   display: flex;
   justify-content: space-between;
   padding: 15px;
@@ -591,35 +609,76 @@ select {
 
 .table-row {
   background-color: #ffffff;
-  box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.1);
+  box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
   margin-top: 10px;
 }
 
-.col-1, .col-2, .col-3, .col-4 {
-  flex-basis: 25%;
+/* Efeito hover para linhas da tabela */
+.table-row:hover {
+  transform: scale(1.02);
+  background-color: #f0f0f0;
+  cursor: pointer;
 }
 
-/* Gráficos de Estatísticas */
-.chart-container {
+.new-task-btn {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  width: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+
+  background-color: #ffffff;
+  box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
+  margin-top: 10px;
+}
+
+.new-task-btn:hover {
+  transform: scale(1.02);
+  background-color: #f0f0f0;
+  cursor: pointer;
+}
+
+/* Área de edição */
+.edit-container {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 20px;
+  width: 20%;
   background-color: #f8f9fa;
   border-radius: 8px;
   padding: 20px;
-  width: 30%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-.chart-container h3 {
-  margin-bottom: 15px;
-  color: #333;
-}
-.chart {
-  padding: 10px;
-  background-color: #e1e1e1;
-  border-radius: 5px;
-  text-align: center;
-  font-weight: bold;
-  color: #333;
+
+.edit-project, .edit-task {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
+.edit-container input, .edit-container textarea, .edit-container select {
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.edit-container textarea {
+  resize: none;
+  height: 80px;
+}
+
+.save-btn {
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.save-btn:hover {
+  background-color: #45a049;
+}

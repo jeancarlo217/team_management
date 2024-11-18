@@ -9,109 +9,131 @@
 
     {% include 'sidebar.html' %}
 
-<div class="project-body">
-    <!-- Painel de Projetos -->
-    <div class="project-menu">
-        <div class="project-list">
-            <div class="project-card" onclick="showTasks('Project Alpha')">
-                <h2>Project Alpha</h2>
-                <p>A brief description of Project Alpha.</p>
+    <div class="project-body">
+        <!-- Painel de Projetos -->
+        <div class="project-menu">
+            <div class="project-list">
+                <div class="project-card selected-project" onclick="showTasks('Project Alpha')">
+                    <h2>Project Alpha</h2>
+                    <p>A brief description of Project Alpha.</p>
+                </div>
+                <div class="project-card" onclick="showTasks('Project Beta')">
+                    <h2>Project Beta</h2>
+                    <p>A brief description of Project Beta.</p>
+                </div>
+                <div class="project-card" onclick="showTasks('Project Gamma')">
+                    <h2>Project Gamma</h2>
+                    <p>A brief description of Project Gamma.</p>
+                </div>
+
+                <!-- Botão "Novo Projeto" fixo na base -->
+                <button class="new-project-btn">+ Adicionar um cartão</button>
             </div>
-            <div class="project-card" onclick="showTasks('Project Beta')">
-                <h2>Project Beta</h2>
-                <p>A brief description of Project Beta.</p>
+    
+            <!-- Tabela de Tarefas -->
+            <div class="task-table-container" id="task-table-container">
+                <ul class="responsive-table">
+                    <li class="table-header">
+                        <div class="col col-1">Nome</div>
+                        <div class="col col-2">Descrição</div>
+                        <div class="col col-3">Status</div>
+                        <div class="col col-4">Prazo</div>
+                    </li>
+                </ul>
+                <ul class="responsive-table" id="task-table-body"></ul>
+                <!-- Botão de Nova Task -->
+                <button class="new-task-btn">+ Nova Task</button>
             </div>
-            <div class="project-card" onclick="showTasks('Project Gamma')">
-                <h2>Project Gamma</h2>
-                <p>A brief description of Project Gamma.</p>
+    
+            <!-- Área de edição -->
+            <div class="edit-container">
+                <div class="edit-project">
+                    <h3>Alterar Projeto</h3>
+                    <input type="text" id="project-name" placeholder="Nome do Projeto">
+                    <textarea id="project-description" placeholder="Descrição"></textarea>
+                    <button class="save-btn" onclick="saveProject()">Salvar Projeto</button>
+                </div>
+                <div class="edit-task">
+                    <h3>Alterar Task</h3>
+                    <input type="text" id="task-name" placeholder="Nome da Task">
+                    <textarea id="task-description" placeholder="Descrição"></textarea>
+                    <select id="task-status">
+                        <option value="Pending">Pendente</option>
+                        <option value="In Progress">Em Progresso</option>
+                        <option value="Completed">Concluído</option>
+                    </select>
+                    <input type="date" id="task-deadline">
+                    <button class="save-btn" onclick="saveTask()">Salvar Task</button>
+                </div>
             </div>
-            
-            <!-- Botão "Novo Projeto" abaixo do último card de projeto -->
-            <button class="new-project-btn">+ Adicionar um cartão</button>
         </div>
 
-        <!-- Tabela de Tarefas -->
-        <div class="task-table-container" id="task-table-container">
-            <ul class="responsive-table">
-                <li class="table-header">
-                    <div class="col col-1">Nome</div>
-                    <div class="col col-2">Descrição</div>
-                    <div class="col col-3">Status</div>
-                    <div class="col col-4">Prazo</div>
-                </li>
-            </ul>
-            <ul class="responsive-table" id="task-table-body"></ul>
-        </div>
+        <script>
+            const tasksData = {
+                'Project Alpha': [
+                    { name: 'Task A1', description: 'Description of Task A1', status: 'Pending', deadline: '2024-12-01' },
+                    { name: 'Task A2', description: 'Description of Task A2', status: 'In Progress', deadline: '2024-12-10' }
+                ],
+                'Project Beta': [
+                    { name: 'Task B1', description: 'Description of Task B1', status: 'Completed', deadline: '2024-11-15' },
+                    { name: 'Task B2', description: 'Description of Task B2', status: 'Pending', deadline: '2024-11-20' }
+                ],
+                'Project Gamma': [
+                    { name: 'Task C1', description: 'Description of Task C1', status: 'In Progress', deadline: '2024-12-05' },
+                    { name: 'Task C2', description: 'Description of Task C2', status: 'Pending', deadline: '2024-12-15' }
+                ]
+            };
 
-        <!-- Gráficos de Estatísticas -->
-        <div class="chart-container">
-            <h3>Estatísticas do Projeto</h3>
-            <div class="chart" id="total-tasks-chart">Total de Tarefas: 0</div>
-            <div class="chart" id="completed-tasks-chart">Percentual Finalizado: 0%</div>
-            <div class="chart" id="pending-tasks-chart">Percentual Não Finalizado: 0%</div>
-        </div>
+            function showTasks(projectName) {
+                const taskTableBody = document.getElementById('task-table-body');
+                taskTableBody.innerHTML = '';
+
+                const tasks = tasksData[projectName];
+                tasks.forEach(task => {
+                    const row = document.createElement('li');
+                    row.classList.add('table-row');
+                    row.setAttribute('onclick', `selectTask('${task.name}', '${task.description}', '${task.status}', '${task.deadline}')`);
+                    row.innerHTML = `
+                        <div class="col col-1">${task.name}</div>
+                        <div class="col col-2">${task.description}</div>
+                        <div class="col col-3">${task.status}</div>
+                        <div class="col col-4">${task.deadline}</div>
+                    `;
+                    taskTableBody.appendChild(row);
+                });
+
+                // Atualizar estilo de seleção do projeto
+                document.querySelectorAll('.project-card').forEach(card => card.classList.remove('selected-project'));
+                event.currentTarget.classList.add('selected-project');
+            }
+
+            function selectTask(name, description, status, deadline) {
+                // Atualizar os campos de edição de tarefa
+                document.getElementById('task-name').value = name;
+                document.getElementById('task-description').value = description;
+                document.getElementById('task-status').value = status;
+                document.getElementById('task-deadline').value = deadline;
+
+                // Atualizar estilo de seleção de tarefa
+                document.querySelectorAll('.table-row').forEach(row => row.classList.remove('selected-task'));
+                event.currentTarget.classList.add('selected-task');
+            }
+
+            function saveProject() {
+                alert('Projeto atualizado!'); // Placeholder para salvar projeto
+            }
+
+            function saveTask() {
+                alert('Task atualizada!'); // Placeholder para salvar task
+            }
+
+            // Exibe o primeiro projeto como selecionado ao carregar a página
+            document.addEventListener('DOMContentLoaded', () => {
+                showTasks('Project Alpha');
+            });
+        </script>
     </div>
 
-    <script>
-        const tasksData = {
-            'Project Alpha': [
-                { name: 'Task A1', description: 'Description of Task A1', status: 'Pending', deadline: '2024-12-01' },
-                { name: 'Task A2', description: 'Description of Task A2', status: 'In Progress', deadline: '2024-12-10' }
-            ],
-            'Project Beta': [
-                { name: 'Task B1', description: 'Description of Task B1', status: 'Completed', deadline: '2024-11-15' },
-                { name: 'Task B2', description: 'Description of Task B2', status: 'Pending', deadline: '2024-11-20' }
-            ],
-            'Project Gamma': [
-                { name: 'Task C1', description: 'Description of Task C1', status: 'In Progress', deadline: '2024-12-05' },
-                { name: 'Task C2', description: 'Description of Task C2', status: 'Pending', deadline: '2024-12-15' }
-            ]
-        };
-
-        function showTasks(projectName) {
-            const taskTableContainer = document.getElementById('task-table-container');
-            const taskTableBody = document.getElementById('task-table-body');
-            const totalTasksChart = document.getElementById('total-tasks-chart');
-            const completedTasksChart = document.getElementById('completed-tasks-chart');
-            const pendingTasksChart = document.getElementById('pending-tasks-chart');
-
-            taskTableBody.innerHTML = '';
-
-            const tasks = tasksData[projectName];
-            let completedCount = 0;
-            let totalTasks = tasks.length;
-
-            tasks.forEach(task => {
-                const row = document.createElement('li');
-                row.classList.add('table-row');
-                row.innerHTML = `
-                    <div class="col col-1" data-label="Nome">${task.name}</div>
-                    <div class="col col-2" data-label="Descrição">${task.description}</div>
-                    <div class="col col-3" data-label="Status">${task.status}</div>
-                    <div class="col col-4" data-label="Prazo">${task.deadline}</div>
-                `;
-                taskTableBody.appendChild(row);
-
-                if (task.status === 'Completed') {
-                    completedCount++;
-                }
-            });
-
-            let completedPercentage = ((completedCount / totalTasks) * 100).toFixed(2);
-            let pendingPercentage = (100 - completedPercentage).toFixed(2);
-
-            totalTasksChart.innerText = `Total de Tarefas: ${totalTasks}`;
-            completedTasksChart.innerText = `Percentual Finalizado: ${completedPercentage}%`;
-            pendingTasksChart.innerText = `Percentual Não Finalizado: ${pendingPercentage}%`;
-
-            taskTableContainer.style.display = 'block';
-        }
-    </script>
-</div>
-
-
-
-
-
 </body>
+
 </html>
