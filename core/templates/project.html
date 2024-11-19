@@ -37,7 +37,7 @@
                 </ul>
                 <ul class="responsive-table" id="task-table-body"></ul>
                 <!-- Botão de Nova Task -->
-                <div class="new-task-btn">+ Nova Tarefa</div>
+                <div class="new-task-btn" id="new-task-btn">+ Nova Tarefa</div>
             </div>
     
             <!-- Área de edição -->
@@ -63,80 +63,13 @@
             </div>
         </div>
 
-        <div class="modal-container" id="modal-new-project" style="--m-background: rgba(0, 0, 0, 0.5);">
-            <div class="container-form">
-                <div class="text">
-                    Novo Projeto
-                </div>
-                
-                
-                <form action="#" method="post">
-                    {% csrf_token %}
-        
-                    <div class="form-row">
-        
-                        <div class="input-data">
-                            {{ project_form.name }}
-                            <div class="underline"></div>
-                            <label>Nome do Projeto</label>
-                        </div>
-        
-                    </div>
-        
-                    <div class="form-row">
-        
-                        <div class="input-data">
-                            {{ project_form.description }}
-                            <div class="underline"></div>
-                            <label>Descrição</label>
-                        </div>
-                        
-                    </div>
-        
-                    <button type="submit" class="btn-form">Salvar</button>
-                </form>
-        
-            </div>
-        </div>
+        {% include 'new_project_modal.html' %}
 
-        <div class="modal-container" id="modal-new-task" style="--m-background: rgba(0, 0, 0, 0.5);">
-            <div class="container-form">
-                <div class="text">
-                    Nova Tarefa
-                </div>
-                
-                
-                <form action="#" method="post">
-                    {% csrf_token %}
-        
-                    <div class="form-row">
-        
-                        <div class="input-data">
-                            {{ project_form.name }}
-                            <div class="underline"></div>
-                            <label>Nome do Projeto</label>
-                        </div>
-        
-                    </div>
-        
-                    <div class="form-row">
-        
-                        <div class="input-data">
-                            {{ project_form.description }}
-                            <div class="underline"></div>
-                            <label>Descrição</label>
-                        </div>
-                        
-                    </div>
-        
-                    <button type="submit" class="btn-form">Salvar</button>
-                </form>
-        
-            </div>
-        </div>
+        {% include 'new_task_modal.html' %}
 
         <script>
             const newProject = document.getElementById('new-project-btn');
+            const newTask = document.getElementById('new-task-btn');
 
             const tasksData = {
                 'Project Alpha': [
@@ -201,6 +134,8 @@
                 showTasks('Project Alpha');
             });
 
+
+
             if(newProject) {
                 newProject.addEventListener('click', function() {
                     document.getElementById('modal-new-project').style.display = 'flex';
@@ -210,6 +145,20 @@
             window.addEventListener('click', function(event) {
                 if (event.target === document.getElementById('modal-new-project')) {
                     document.getElementById('modal-new-project').style.display = 'none';
+                }
+            });
+
+
+
+            if(newTask) {
+                newTask.addEventListener('click', function() {
+                    document.getElementById('modal-new-task').style.display = 'flex';
+                });
+            };
+
+            window.addEventListener('click', function(event) {
+                if (event.target === document.getElementById('modal-new-task')) {
+                    document.getElementById('modal-new-task').style.display = 'none';
                 }
             });
         </script>

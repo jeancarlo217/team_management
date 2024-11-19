@@ -1,0 +1,51 @@
+<div class="modal-container" id="modal-new-task" style="--m-background: rgba(0, 0, 0, 0.5);">
+    <div class="container-form">
+        <div class="text">
+            Nova Tarefa
+        </div>
+        
+        
+        <form action="#" method="post">
+            {% csrf_token %}
+
+            <div class="form-row">
+
+                <div class="input-data">
+                    {{ task_form.name }}
+                    <div class="underline"></div>
+                    <label>Tarefa</label>
+                </div>
+
+            </div>
+
+            <div class="form-row">
+
+                <div class="input-data">
+                    {{ task_form.description }}
+                    <div class="underline"></div>
+                    <label>Descrição</label>
+                </div>
+                
+            </div>
+
+            <div class="form-row">
+
+                <div class="select-data">
+                    {{ task_form.status }}
+                    <div class="underline"></div>
+                    <label>Status</label>
+                </div>
+
+                <div class="input-data">
+                    {{ task_form.deadline }}
+                    <div class="underline"></div>
+                    <label>Prazo</label>
+                </div>
+                
+            </div>
+
+            <button type="submit" class="btn-form">Salvar</button>
+        </form>
+
+    </div>
+</div>

@@ -27,14 +27,14 @@ class CustomUserAdmin(BaseUserAdmin):
 
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
-    list_display = ()
+    list_display = ('name', 'description')
     
 
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ()
+    list_display = ('name', 'description', 'status', 'deadline')
 
 
 @admin.register(TaskProject)
 class TaskProjectAdmin(admin.ModelAdmin):
-    list_display = ()
+    list_display = ('task', 'project')

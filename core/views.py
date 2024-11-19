@@ -5,8 +5,8 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView, DeleteView
 
-from .forms import ProjectForm, TaskForm
-from .models import Project, Task
+from .forms import ProjectForm, TaskForm, TaskProjectForm
+from .models import Project, Task, TaskProject
 
 class LoginView(LoginView):
     template_name = 'login.html'
@@ -36,22 +36,42 @@ class ProjectView(LoginRequiredMixin, TemplateView):
         project_form = ProjectForm(request.POST)
         task_form = TaskForm(request.POST)
         
-        if project_form.is_valid():
-            project_form.save()
-            return redirect('project')
-        
-        if task_form.is_valid():
-            
-            task_form.save()
-            return redirect('project')
-        
+        if 'deadline' not in request.POST:
+            if project_form.is_valid():
+                # Salva o formulário de projeto
+                project_form.save()
+                return redirect('project')
+        else:
+            if task_form.is_valid():
+                # Salva os dados da task
+                task_form = task_form.save(commit=False)
+                task_instance = Task.objects.get(id=task_id)
+                task_id = request.POST.get('task_id')
+                print(task_id)
+
+                # Verifica se o projeto já existe
+                project_instance = Project.objects.first()  # Exemplo, use lógica adequada para obter o projeto
+
+                # Cria relação entre task e project
+                task_project_form = TaskProjectForm(data={
+                    'task': task_instance.id,
+                    'project': project_instance.id,
+                })
+
+                if task_project_form.is_valid():
+                    task_project_form.save()
+                    task_form.save()
+                    return redirect('project')
+
+        # Caso não seja válido, renderize novamente a página
         context = self.get_context_data(**kwargs)
         context['project_form'] = project_form
         context['task_form'] = task_form
         return self.render_to_response(context)
     
     def get_context_data(self, **kwargs):
-        context = super(ProjectView, self).get_context_data(**kwargs)
+        # Corrigindo chamada ao método pai
+        context = super().get_context_data(**kwargs)
         context['projects'] = Project.objects.all()
-        context['tasks'] = Project.objects.all()
+        context['tasks'] = Task.objects.all()
         return context
