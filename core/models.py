@@ -66,7 +66,7 @@ class Project(models.Model):
         return self.name
 
 
-class Tesk(models.Model):
+class Task(models.Model):
     STATUS_CHOICES = [
         ('pending', 'Pendente'),
         ('in_progress', 'Em Progresso'),
@@ -82,17 +82,17 @@ class Tesk(models.Model):
         return self.name
 
 
-class UserTesk(models.Model):
+class UserTask(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    tesk = models.ForeignKey(Tesk, on_delete=models.CASCADE)
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.user.first_name} - {self.tesk.name}"
+        return f"{self.user.first_name} - {self.task.name}"
 
 
-class TeskProject(models.Model):
-    tesk = models.ForeignKey(Tesk, on_delete=models.CASCADE)
+class TaskProject(models.Model):
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.tesk.name} - {self.project.name}"
+        return f"{self.task.name} - {self.project.name}"

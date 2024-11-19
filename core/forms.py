@@ -1,5 +1,5 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from .models import User, Project
+from .models import User, Project, Task, TaskProject
 from django.forms import ModelForm
 from django import forms
 
@@ -38,3 +38,32 @@ class ProjectForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         
+
+class TaskForm(ModelForm):
+    class Meta:
+        model = Task
+        fields = ['name', 'description', 'status', 'deadline']
+
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'custom-input', 'placeholder': ' '}),
+            'description': forms.TextInput(attrs={'class': 'custom-input', 'placeholder': ' '}),
+            'status': forms.Select(attrs={'class': 'custom-select', 'placeholder': ' '}),
+            'deadline': forms.TextInput(attrs={'class': 'custom-input', 'placeholder': ' '}),
+        }
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+        
+class TaskProjectForm(ModelForm):
+    class Meta:
+        model = TaskProject
+        fields = ['task', 'project']
+
+        widgets = {
+            'task': forms.TextInput(attrs={'class': 'custom-input', 'placeholder': ' '}),
+            'project': forms.TextInput(attrs={'class': 'custom-input', 'placeholder': ' '}),
+        }
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
