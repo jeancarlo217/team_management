@@ -508,6 +508,7 @@ select {
 }
 
 .project-menu {
+  background-color: #3b3b3b;
   display: flex;
   justify-content: space-between;
   width: 100%;

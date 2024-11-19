@@ -28,8 +28,10 @@ class ProjectView(LoginRequiredMixin, TemplateView):
 
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
+        project_id = kwargs.get('project_id')
         context['project_form'] = ProjectForm()
         context['task_form'] = TaskForm()
+        context['project_id'] = project_id
         return self.render_to_response(context)
     
     def post(self, request, *args, **kwargs):
@@ -43,24 +45,20 @@ class ProjectView(LoginRequiredMixin, TemplateView):
                 return redirect('project')
         else:
             if task_form.is_valid():
+                project_instance = Project.objects.first()
                 # Salva os dados da task
                 task_form = task_form.save(commit=False)
-                task_instance = Task.objects.get(id=task_id)
-                task_id = request.POST.get('task_id')
-                print(task_id)
-
-                # Verifica se o projeto já existe
-                project_instance = Project.objects.first()  # Exemplo, use lógica adequada para obter o projeto
+                task_form.project = project_instance
+                task_form.save()
 
                 # Cria relação entre task e project
                 task_project_form = TaskProjectForm(data={
-                    'task': task_instance.id,
+                    'task': task_form.id,
                     'project': project_instance.id,
                 })
 
                 if task_project_form.is_valid():
                     task_project_form.save()
-                    task_form.save()
                     return redirect('project')
 
         # Caso não seja válido, renderize novamente a página
