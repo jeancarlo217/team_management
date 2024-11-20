@@ -37,6 +37,7 @@ class ProjectView(LoginRequiredMixin, TemplateView):
     def post(self, request, *args, **kwargs):
         project_form = ProjectForm(request.POST)
         task_form = TaskForm(request.POST)
+        project_id = kwargs.get('project_id')
         
         if 'deadline' not in request.POST:
             if project_form.is_valid():
@@ -45,7 +46,7 @@ class ProjectView(LoginRequiredMixin, TemplateView):
                 return redirect('project')
         else:
             if task_form.is_valid():
-                project_instance = Project.objects.first()
+                project_instance = Project.objects.get(id=project_id)
                 # Salva os dados da task
                 task_form = task_form.save(commit=False)
                 task_form.project = project_instance
@@ -54,7 +55,7 @@ class ProjectView(LoginRequiredMixin, TemplateView):
                 # Cria relação entre task e project
                 task_project_form = TaskProjectForm(data={
                     'task': task_form.id,
-                    'project': project_instance.id,
+                    'project': project_id,
                 })
 
                 if task_project_form.is_valid():
