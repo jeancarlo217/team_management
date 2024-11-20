@@ -7,5 +7,6 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     
     path('', IndexView.as_view(), name='index'),
-    path('project/<int:project_id>', ProjectView.as_view(), name='project'),
+    path('project/', ProjectView.as_view(), name='project'),
+    path('project/<int:project_id>', ProjectView.as_view(), name='project_id'),
 ]
