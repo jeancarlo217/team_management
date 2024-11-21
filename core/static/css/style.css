@@ -525,13 +525,15 @@ a {
   margin-bottom: 10px;
 }
 .project-card-functions {
+  position: absolute;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-}
-.project-card:hover {
-  transform: scale(1.05);
+  flex-direction: column;
+  gap: 10px; /* Espaçamento vertical entre os botões */
+  opacity: 0; /* Esconde inicialmente */
+  pointer-events: none; /* Evita interação */
+  transform: translateX(10px); /* Move os botões levemente */
+  transition: opacity 0.5s ease, transform 0.5s ease; /* Ajusta a transição */
+  z-index: 10; /* Garante que fiquem acima de outros elementos */
 }
 .project-card h2 {
   font-size: 18px;
@@ -541,6 +543,55 @@ a {
   color: #ddd;
   font-size: 14px;
 }
+.project-card:hover {
+  transform: scale(1.05);
+}
+.card-actions {
+  position: absolute;
+  top: 10px; /* Coloca os botões no topo */
+  left: 100%; /* Posiciona os botões fora do card */
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Espaçamento vertical entre os botões */
+  opacity: 0; /* Esconde inicialmente */
+  pointer-events: none; /* Evita interação */
+  transform: translateX(10px); /* Move os botões levemente */
+  transition: opacity 0.5s ease, transform 0.5s ease; /* Ajusta a transição */
+  z-index: 10; /* Garante que fiquem acima de outros elementos */
+}
+.project-card:hover .card-actions{
+  opacity: 1; /* Mostra os botões ao passar o mouse no card */
+  pointer-events: auto;
+  transform: translateX(0); /* Move os botões de volta */
+}
+.action-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  background-color: #4CAF50;
+  border-radius: 5px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  cursor: pointer;
+}
+
+.action-btn:hover {
+  background-color: #45a049;
+  transform: scale(1.05);
+}
+
+.action-btn svg {
+  width: 100%; /* Adapta o tamanho do SVG ao botão */
+  height: 100%;
+  fill: white; /* Cor do SVG */
+}
+
+
+
+
+
 
 /* Botão Novo Projeto */
 .new-project-btn {
