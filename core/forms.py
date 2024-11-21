@@ -1,5 +1,5 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from .models import User, Project, Task, UserTask
+from .models import User, Project, Task, UserTask, UserProject
 from django.forms import ModelForm
 from django import forms
 
@@ -55,7 +55,23 @@ class TaskForm(ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['status'].empty_label = ''
         
+
+class UserProjectForm(ModelForm):
+    class Meta:
+        model = UserProject
+        fields = ['user', 'project']
+
+        widgets = {
+            'user': forms.Select(attrs={'class': 'custom-select', 'placeholder': ' '}),
+            'project': forms.TextInput(attrs={'class': 'custom-input', 'placeholder': ' '}),
+        }
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         
+
+
+
 class UserTaskForm(ModelForm):
     class Meta:
         model = UserTask

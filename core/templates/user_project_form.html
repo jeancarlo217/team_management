@@ -1,0 +1,25 @@
+<div class="modal-container" id="modal-new-user-project" style="--m-background: rgba(0, 0, 0, 0.5);">
+    <div class="container-form">
+        <div class="text">
+            Usuários
+        </div>
+        
+        
+        <form action="#" method="post">
+            {% csrf_token %}
+
+            <div class="form-row">
+
+                <div class="input-data">
+                    {{ user_project_form.user }}
+                    <div class="underline"></div>
+                    <label>Projeto</label>
+                </div>
+
+            </div>
+
+            <button type="submit" class="btn-form">Salvar</button>
+        </form>
+
+    </div>
+</div>

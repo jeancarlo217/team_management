@@ -5,8 +5,8 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView, DeleteView
 
-from .forms import ProjectForm, TaskForm, UserTaskForm
-from .models import User, Project, Task, UserTask
+from .forms import ProjectForm, TaskForm, UserTaskForm, UserProjectForm
+from .models import User, Project, Task, UserTask, UserProject
 
 class LoginView(LoginView):
     template_name = 'login.html'
@@ -31,6 +31,7 @@ class ProjectView(LoginRequiredMixin, TemplateView):
         project_id = kwargs.get('project_id')
         context['project_form'] = ProjectForm()
         context['task_form'] = TaskForm()
+        context['user_project_form'] = UserProjectForm()
         context['users'] = User.objects.all()
         context['project_id'] = project_id
         return self.render_to_response(context)
