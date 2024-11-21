@@ -84,17 +84,17 @@ class Task(models.Model):
         return self.name
 
 
+class UserProject(models.Model):
+    user = models.ForeignKey(Task, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.task.name} - {self.project.name}"
+    
+
 class UserTask(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.user.first_name} - {self.task.name}"
-
-
-class TaskProject(models.Model):
-    task = models.ForeignKey(Task, on_delete=models.CASCADE)
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f"{self.task.name} - {self.project.name}"

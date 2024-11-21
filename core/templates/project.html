@@ -40,7 +40,7 @@
                 <ul class="responsive-table" id="task-table-body">
                     {% for task in tasks %}
                         {% if task.project_id == project_id %}
-                            <li class="table-row" onclick="selectTask()">
+                            <li class="table-row" name="{{ task.id }}" onclick="selectTask('{{ task.id }}')">
                                 <div class="col col-1">{{ task.name }}</div>
                                 <div class="col col-2">{{ task.description }}</div>
                                 <div class="col col-3">{{ task.status }}</div>
@@ -55,7 +55,7 @@
     
             <!-- Área de edição -->
             <div class="edit-container">
-                <h1>Área em manutenção</h1>
+                <h5>Área em manutenção</h5>
             </div>
         </div>
 
@@ -69,16 +69,11 @@
             const projectCards = document.querySelectorAll('.project-card');
 
 
-            function selectTask(name, description, status, deadline) {
-                // Atualizar os campos de edição de tarefa
-                document.getElementById('task-name').value = name;
-                document.getElementById('task-description').value = description;
-                document.getElementById('task-status').value = status;
-                document.getElementById('task-deadline').value = deadline;
-
+            function selectTask(name) {
                 // Atualizar estilo de seleção de tarefa
                 document.querySelectorAll('.table-row').forEach(row => row.classList.remove('selected-task'));
-                event.currentTarget.classList.add('selected-task');
+                console.log(document.getElementsByName(name).classList);
+                document.getElementsByName(name)[0].classList.add('selected-task');
             }
 
 
