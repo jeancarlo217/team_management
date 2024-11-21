@@ -5,8 +5,8 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView, DeleteView
 
-from .forms import ProjectForm, TaskForm, TaskProjectForm
-from .models import Project, Task, TaskProject
+from .forms import ProjectForm, TaskForm, UserTaskForm
+from .models import User, Project, Task, UserTask
 
 class LoginView(LoginView):
     template_name = 'login.html'
@@ -31,6 +31,7 @@ class ProjectView(LoginRequiredMixin, TemplateView):
         project_id = kwargs.get('project_id')
         context['project_form'] = ProjectForm()
         context['task_form'] = TaskForm()
+        context['users'] = User.objects.all()
         context['project_id'] = project_id
         return self.render_to_response(context)
     
@@ -53,14 +54,14 @@ class ProjectView(LoginRequiredMixin, TemplateView):
                 task_form.save()
 
                 # Cria relação entre task e project
-                task_project_form = TaskProjectForm(data={
+                user_task_form = UserTaskForm(data={
+                    'user': project_id,
                     'task': task_form.id,
-                    'project': project_id,
                 })
 
-                if task_project_form.is_valid():
-                    task_project_form.save()
-                    return redirect('project')
+                if user_task_form.is_valid():
+                    user_task_form.save()
+                    return redirect('project_id', project_id=project_id)
 
         # Caso não seja válido, renderize novamente a página
         context = self.get_context_data(**kwargs)

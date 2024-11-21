@@ -1,5 +1,5 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from .models import User, Project, Task, TaskProject
+from .models import User, Project, Task, UserTask
 from django.forms import ModelForm
 from django import forms
 
@@ -47,22 +47,23 @@ class TaskForm(ModelForm):
         widgets = {
             'name': forms.TextInput(attrs={'class': 'custom-input', 'placeholder': ' '}),
             'description': forms.TextInput(attrs={'class': 'custom-input', 'placeholder': ' '}),
-            'status': forms.Select(attrs={'class': 'custom-select', 'placeholder': ' '}),
+            'status': forms.Select(attrs={'class': 'custom-select', 'id': 'custom-select'}),
             'deadline': forms.TextInput(attrs={'class': 'custom-input', 'placeholder': ' '}),
         }
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields['status'].empty_label = ''
         
         
-class TaskProjectForm(ModelForm):
+class UserTaskForm(ModelForm):
     class Meta:
-        model = TaskProject
-        fields = ['task', 'project']
+        model = UserTask
+        fields = ['user', 'task']
 
         widgets = {
+            'user': forms.TextInput(attrs={'class': 'custom-input', 'placeholder': ' '}),
             'task': forms.TextInput(attrs={'class': 'custom-input', 'placeholder': ' '}),
-            'project': forms.TextInput(attrs={'class': 'custom-input', 'placeholder': ' '}),
         }
     
     def __init__(self, *args, **kwargs):

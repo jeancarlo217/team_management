@@ -57,20 +57,6 @@ html::-webkit-scrollbar {
   font-family: sans-serif;
 }
 
-.input{
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.input input{
-  height: 4vh;
-  border-radius: 5px;
-  color: #333;
-  padding-left: 10px;
-  background-color: #d8ecff;
-}
-
 .login-card button{
   display: flex;
   align-items: center;
@@ -165,12 +151,6 @@ button {
   cursor: pointer;
   outline: none;
 }
-button:focus {
-  box-shadow:
-          0 0 0 2px hsl(var(--black)),
-          0 0 0 3px hsl(var(--white));
-  border: 1px solid transparent;
-}
 
 /* =======
   Lists
@@ -180,48 +160,6 @@ ul, ol {
   margin: 1em 0;
 }
 
-/* =======
-  Forms
- ======= */
-
-form {
-  margin: 0;
-}
-fieldset {
-  margin: 0;
-  padding: .5em 0;
-  border: none;
-}
-input {
-  padding: .8em 1.2em;
-  font-size: var(--paragraph);
-  background-color: hsl(var(--grooble));
-  border: 2px solid hsl(var(--grooble));
-  outline: none;
-}
-textarea {
-  padding: .8em 1.2em;
-  font-size: var(--paragraph);
-  font-family: var(--font-main);
-  background-color: hsl(var(--grooble));
-  border: 2px solid hsl(var(--grooble));
-  outline: none;
-}
-input, textarea {
-  transition: all .2s ease-in-out;
-}
-input:hover, input:focus, textarea:hover, textarea:focus {
-  box-shadow:
-          0 0 0 2px hsl(var(--black)),
-          0 0 0 3px hsl(var(--white));
-  border: 2px solid transparent;
-}
-select {
-  padding: .8em 1.2em;
-  border: 1px solid hsl(var(--black));
-  font-size: var(--paragraph);
-  outline: none;
-}
 
 /* =========
   Classes
@@ -491,7 +429,41 @@ select {
 }
 
 
+/* Área de edição */
+.edit-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 20%;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
 
+.edit-project, .edit-task {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.edit-container textarea {
+  resize: none;
+  height: 80px;
+}
+
+.save-btn {
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.save-btn:hover {
+  background-color: #45a049;
+}
 
 
 .project-body {
@@ -647,49 +619,7 @@ a {
   cursor: pointer;
 }
 
-/* Área de edição */
-.edit-container {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  width: 20%;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
 
-.edit-project, .edit-task {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.edit-container input, .edit-container textarea, .edit-container select {
-  padding: 10px;
-  font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  width: 100%;
-}
-
-.edit-container textarea {
-  resize: none;
-  height: 80px;
-}
-
-.save-btn {
-  padding: 10px;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.save-btn:hover {
-  background-color: #45a049;
-}
 
 /* Modal CSS */
 .modal-container {
@@ -743,21 +673,15 @@ form .form-row .textarea {
   height: 70px;
 }
 
-.input-data input:focus ~ label,
-.input-data .custom-input:focus ~ label,
-
-.select-data select:focus ~ label,
-.select-data .custom-select:focus ~ label,
-
-.input-data input:not(:placeholder-shown) ~ label,
-.input-data .custom-input:not(:placeholder-shown) ~ label,
-
-.textarea textarea:focus ~ label,
-.textarea textarea:not(:placeholder-shown) ~ label,
-.select-data select:valid ~ label {
-    transform: translateY(-20px);
-    font-size: 14px;
-    color: green;
+.input-data input:focus ~ label, .input-data .custom-input:focus ~ label,
+.select-data select:focus ~ label, .select-data .custom-select:focus ~ label,
+.input-data input:not(:placeholder-shown) ~ label, .input-data .custom-input:not(:placeholder-shown) ~ label,
+.textarea textarea:focus ~ label, .textarea textarea:not(:placeholder-shown) ~ label, .select-data select:valid ~ label {
+  outline: none;
+  border: none;
+  transform: translateY(-20px);
+  font-size: 14px;
+  color: green;
 }
 
 .textarea textarea {
@@ -779,9 +703,7 @@ form .form-row .textarea {
   bottom: 40px;
 }
 
-.input-data .custom-input,
-.select-data .custom-select,
-.textarea textarea {
+.input-data .custom-input, .select-data .custom-select, .textarea textarea {
   display: block;
   width: 100%;
   height: 100%;
@@ -790,8 +712,7 @@ form .form-row .textarea {
   border-bottom: 2px solid rgba(0, 0, 0, 0.12);
 }
 
-.input-data .underline,
-.select-data .underline {
+.input-data .underline, .select-data .underline {
   position: absolute;
   bottom: 0;
   height: 1px;
@@ -810,16 +731,12 @@ form .form-row .textarea {
   transition: transform 0.3s ease;
 }
 
-.input-data input:focus ~ .underline:before,
-
-.input-data input:not(:placeholder-shown) ~ .underline:before,
+.input-data input:focus ~ .underline:before, .input-data input:not(:placeholder-shown) ~ .underline:before,
 .input-data .custom-input:not(:placeholder-shown) ~ .underline:before,
-
-.select-data select:focus ~ .underline:before,
-.select-data select:valid ~ .underline:before,
-
-.textarea textarea:focus ~ .underline:before,
-.textarea textarea:not(:placeholder-shown) ~ .underline:before {
+.select-data select:focus ~ .underline:before, .select-data select:valid ~ .underline:before,
+.textarea textarea:focus ~ .underline:before, .textarea textarea:not(:placeholder-shown) ~ .underline:before {
+  outline: none;
+  border: none;
   transform: scale(1);
 }
 
@@ -829,4 +746,9 @@ form .form-row .textarea {
   background: url(https://upload.wikimedia.org/wikipedia/commons/9/9d/Caret_down_font_awesome_whitevariation.svg) no-repeat right 0.8em center / 1.4em, linear-gradient(to left, #333 3em, transparent 3em);
   color: inherit;
   cursor: pointer;
+}
+
+select, input:focus {
+  outline: none;
+  border: none;
 }
