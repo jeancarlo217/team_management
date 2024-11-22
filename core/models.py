@@ -85,7 +85,7 @@ class Task(models.Model):
 
 
 class UserProject(models.Model):
-    user = models.ForeignKey(Task, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
 
     def __str__(self):

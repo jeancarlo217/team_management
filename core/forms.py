@@ -62,15 +62,14 @@ class UserProjectForm(ModelForm):
         fields = ['user', 'project']
 
         widgets = {
-            'user': forms.Select(attrs={'class': 'custom-select', 'placeholder': ' '}),
+            'user': forms.Select(attrs={'class': 'custom-select', 'id': 'custom-select'}),
             'project': forms.TextInput(attrs={'class': 'custom-input', 'placeholder': ' '}),
         }
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields['user'].empty_label = ''
         
-
-
 
 class UserTaskForm(ModelForm):
     class Meta:

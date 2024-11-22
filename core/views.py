@@ -32,13 +32,13 @@ class ProjectView(LoginRequiredMixin, TemplateView):
         context['project_form'] = ProjectForm()
         context['task_form'] = TaskForm()
         context['user_project_form'] = UserProjectForm()
-        context['users'] = User.objects.all()
         context['project_id'] = project_id
         return self.render_to_response(context)
     
     def post(self, request, *args, **kwargs):
         project_form = ProjectForm(request.POST)
         task_form = TaskForm(request.POST)
+        user_project_form = UserProjectForm(request.POST)
         project_id = kwargs.get('project_id')
         
         if 'deadline' not in request.POST:
@@ -68,6 +68,7 @@ class ProjectView(LoginRequiredMixin, TemplateView):
         context = self.get_context_data(**kwargs)
         context['project_form'] = project_form
         context['task_form'] = task_form
+        context['user_project_form'] = user_project_form
         return self.render_to_response(context)
     
     def get_context_data(self, **kwargs):
