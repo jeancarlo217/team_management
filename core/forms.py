@@ -59,18 +59,17 @@ class TaskForm(ModelForm):
 class UserProjectForm(ModelForm):
     class Meta:
         model = UserProject
-        fields = ['user', 'project']
+        fields = ['up_user', 'up_project']
 
         widgets = {
-            'user': forms.Select(attrs={'class': 'custom-select', 'placeholder': ' '}),
-            'project': forms.TextInput(attrs={'class': 'custom-input', 'placeholder': ' '}),
+            'up_user': forms.Select(attrs={'class': 'custom-select', 'id': 'custom-select'}),
+            'up_project': forms.TextInput(attrs={'class': 'custom-input', 'placeholder': ' '}),
         }
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields['up_user'].empty_label = ''
         
-
-
 
 class UserTaskForm(ModelForm):
     class Meta:

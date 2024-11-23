@@ -32,23 +32,18 @@ class ProjectView(LoginRequiredMixin, TemplateView):
         context['project_form'] = ProjectForm()
         context['task_form'] = TaskForm()
         context['user_project_form'] = UserProjectForm()
-        context['users'] = User.objects.all()
         context['project_id'] = project_id
         return self.render_to_response(context)
     
     def post(self, request, *args, **kwargs):
         project_form = ProjectForm(request.POST)
         task_form = TaskForm(request.POST)
+        user_project_form = UserProjectForm(request.POST)
         project_id = kwargs.get('project_id')
+        project_instance = Project.objects.get(id=project_id)
         
-        if 'deadline' not in request.POST:
-            if project_form.is_valid():
-                # Salva o formulário de projeto
-                project_form.save()
-                return redirect('project')
-        else:
+        if 'deadline' in request.POST:
             if task_form.is_valid():
-                project_instance = Project.objects.get(id=project_id)
                 # Salva os dados da task
                 task_form = task_form.save(commit=False)
                 task_form.project = project_instance
@@ -63,11 +58,27 @@ class ProjectView(LoginRequiredMixin, TemplateView):
                 if user_task_form.is_valid():
                     user_task_form.save()
                     return redirect('project_id', project_id=project_id)
+            
+        elif 'up_user' in request.POST:
+            print('funcionou')
+            if user_project_form.is_valid():
+                user_project_form = user_project_form.save(commit=False)
+                user_project_form.up_project = project_instance
+                user_project_form.save()
+
+            return redirect('project_id', project_id=project_id)
+        
+        else:
+            if project_form.is_valid():
+                # Salva o formulário de projeto
+                project_form.save()
+            return redirect('project')
 
         # Caso não seja válido, renderize novamente a página
         context = self.get_context_data(**kwargs)
         context['project_form'] = project_form
         context['task_form'] = task_form
+        context['user_project_form'] = user_project_form
         return self.render_to_response(context)
     
     def get_context_data(self, **kwargs):
