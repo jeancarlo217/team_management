@@ -60,10 +60,10 @@ class ProjectView(LoginRequiredMixin, TemplateView):
                     return redirect('project_id', project_id=project_id)
             
         elif 'up_user' in request.POST:
-            print('funcionou')
             if user_project_form.is_valid():
                 user_project_form = user_project_form.save(commit=False)
                 user_project_form.up_project = project_instance
+                print(user_project_form)
                 user_project_form.save()
 
             return redirect('project_id', project_id=project_id)
