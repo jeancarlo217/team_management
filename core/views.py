@@ -20,6 +20,14 @@ class LoginView(LoginView):
 class IndexView(LoginRequiredMixin, TemplateView):
     template_name = 'index.html'
     login_url = '/login'
+    
+    def get(self, request, *args, **kwargs):
+        if request.user.tipo != 'super':
+            return redirect('project')
+        
+        context = self.get_context_data(**kwargs)
+        context['user_type'] = request.user.tipo
+        return self.render_to_response(context)
 
 
 class ProjectView(LoginRequiredMixin, TemplateView):
@@ -33,6 +41,14 @@ class ProjectView(LoginRequiredMixin, TemplateView):
         context['task_form'] = TaskForm()
         context['user_project_form'] = UserProjectForm()
         context['project_id'] = project_id
+        context['user_type'] = request.user.tipo
+        
+        if request.user.tipo in ['super']:
+            context['projects'] = Project.objects.all()
+        else:
+            users_projects = UserProject.objects.filter(up_user=request.user.id)
+            context['projects'] = Project.objects.filter(id__in=users_projects.values('up_project'))
+        
         return self.render_to_response(context)
     
     def post(self, request, *args, **kwargs):
@@ -40,26 +56,19 @@ class ProjectView(LoginRequiredMixin, TemplateView):
         task_form = TaskForm(request.POST)
         user_project_form = UserProjectForm(request.POST)
         project_id = kwargs.get('project_id')
-        project_instance = Project.objects.get(id=project_id)
         
         if 'deadline' in request.POST:
+            project_instance = Project.objects.get(id=project_id)
             if task_form.is_valid():
                 # Salva os dados da task
                 task_form = task_form.save(commit=False)
                 task_form.project = project_instance
                 task_form.save()
+                return redirect('project_id', project_id=project_id)
 
-                # Cria relação entre task e project
-                user_task_form = UserTaskForm(data={
-                    'user': project_id,
-                    'task': task_form.id,
-                })
-
-                if user_task_form.is_valid():
-                    user_task_form.save()
-                    return redirect('project_id', project_id=project_id)
             
         elif 'up_user' in request.POST:
+            project_instance = Project.objects.get(id=project_id)
             if user_project_form.is_valid():
                 user_project_form = user_project_form.save(commit=False)
                 user_project_form.up_project = project_instance
@@ -84,6 +93,5 @@ class ProjectView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         # Corrigindo chamada ao método pai
         context = super().get_context_data(**kwargs)
-        context['projects'] = Project.objects.all()
         context['tasks'] = Task.objects.all()
         return context

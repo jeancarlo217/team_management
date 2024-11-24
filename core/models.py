@@ -34,10 +34,8 @@ class UserManager(BaseUserManager):
 
 class User(AbstractUser):
     TIPO_CHOICES = [
-        ('FUNC_V2', 'Funcionário V2'),
-        ('FUNC_VV', 'Funcionário VV'),
-        ('CLI_V2', 'Cliente V2'),
-        ('DEV', 'Desenvolvimento'),
+        ('funcionario', 'Funcionário'),
+        ('super', 'Gerente'),
     ]
     perfil = StdImageField(
         upload_to='perfil/',

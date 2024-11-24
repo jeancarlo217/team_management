@@ -282,7 +282,7 @@ ul, ol {
 }
 .navbar-logo > .navbar-item-inner > svg {
   height: 2em;
-  fill: hsl(var(--white));
+  fill: white;
 }
 /* Navbar Items */
 .navbar-item {
@@ -523,7 +523,7 @@ a {
   padding: 15px;
   border-radius: 8px;
 }
-.project-card-functions {
+.project-card-new-user {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -533,15 +533,9 @@ a {
   padding: 0;
   margin: none;
 }
-.project-card-new-user {
-  height: 50%;
-}
-.project-card-edit {
-  height: 50%;
-}
-.project-card svg {
-  height: 20px;
-  width: 20px;
+.project-card-new-user svg {
+  height: 30px;
+  width: 30px;
   fill: #4CAF50;
 }
 .project-card svg:hover {
@@ -558,6 +552,19 @@ a {
 .project-card p {
   color: #ddd;
   font-size: 14px;
+}
+
+.task-row-new-user {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: none;
+}
+.task-row-new-user svg {
+  height: 30px;
+  width: 30px;
 }
 
 /* Botão Novo Projeto */
@@ -618,11 +625,14 @@ a {
   margin-top: 10px;
 }
 
-.col-1, .col-3, .col-4 {
+.col-1, .col-2, .col-3{
   flex-basis: 20%;
 }
-.col-2 {
-  flex-basis: 40%;
+.col-4 {
+  flex-basis: 30%;
+}
+.col-5 {
+  flex-basis: 10%;
 }
 
 /* Efeito hover para linhas da tabela */
