@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .forms import CustomUserCreationForm, CustomUserChangeForm
-from .models import User, Project, Task, UserProject
+from .models import User, Project, Task, UserProject, UserTask
 
 @admin.register(User)
 class CustomUserAdmin(BaseUserAdmin):
@@ -38,3 +38,8 @@ class TaskAdmin(admin.ModelAdmin):
 @admin.register(UserProject)
 class UserProjectAdmin(admin.ModelAdmin):
     list_display = ('up_user', 'up_project')
+    
+
+@admin.register(UserTask)
+class UserTaskAdmin(admin.ModelAdmin):
+    list_display = ('ut_user', 'ut_task')

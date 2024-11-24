@@ -37,9 +37,12 @@ class ProjectView(LoginRequiredMixin, TemplateView):
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
         project_id = kwargs.get('project_id')
+        
         context['project_form'] = ProjectForm()
         context['task_form'] = TaskForm()
         context['user_project_form'] = UserProjectForm()
+        context['user_task_form'] = UserTaskForm()
+        
         context['project_id'] = project_id
         context['user_type'] = request.user.tipo
         
@@ -55,6 +58,7 @@ class ProjectView(LoginRequiredMixin, TemplateView):
         project_form = ProjectForm(request.POST)
         task_form = TaskForm(request.POST)
         user_project_form = UserProjectForm(request.POST)
+        user_task_form = UserTaskForm(request.POST)
         project_id = kwargs.get('project_id')
         
         if 'deadline' in request.POST:
@@ -72,8 +76,13 @@ class ProjectView(LoginRequiredMixin, TemplateView):
             if user_project_form.is_valid():
                 user_project_form = user_project_form.save(commit=False)
                 user_project_form.up_project = project_instance
-                print(user_project_form)
                 user_project_form.save()
+
+            return redirect('project_id', project_id=project_id)
+        
+        elif 'ut_user' in request.POST:
+            if user_task_form.is_valid():
+                user_task_form.save()
 
             return redirect('project_id', project_id=project_id)
         

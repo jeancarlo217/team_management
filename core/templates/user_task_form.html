@@ -1,4 +1,4 @@
-<div class="modal modal-container" id="modal-new-user-project" style="--m-background: rgba(0, 0, 0, 0.5);">
+<div class="modal modal-container" id="modal-new-user-task-{{ task.id }}" style="--m-background: rgba(0, 0, 0, 0.5);">
     <div class="container-form">
         <div class="text">
             Usuários
@@ -11,12 +11,14 @@
             <div class="form-row">
 
                 <div class="select-data">
-                    {{ user_project_form.up_user }}
+                    {{ user_task_form.ut_user }}
                     <div class="underline"></div>
                     <label>Usuário</label>
                 </div>
 
             </div>
+
+            <input type="hidden" name="{{ user_task_form.ut_task.html_name }}" value="{{ task.id }}">
 
             <button type="submit" class="btn-form">Salvar</button>
         </form>

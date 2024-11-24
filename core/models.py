@@ -91,8 +91,8 @@ class UserProject(models.Model):
     
 
 class UserTask(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    task = models.ForeignKey(Task, on_delete=models.CASCADE)
+    ut_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    ut_task = models.ForeignKey(Task, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.user.first_name} - {self.task.name}"
+        return f"{self.ut_user.first_name} - {self.ut_task.name}"
