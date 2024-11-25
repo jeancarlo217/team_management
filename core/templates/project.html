@@ -59,9 +59,9 @@
                     {% for task in tasks %}
                         {% if task.project_id == project_id %}
                             <li class="table-row" name="{{ task.id }}" onclick="selectTask('{{ task.id }}')">
-                                <div class="col col-1">{{ task.name }}</div>
-                                <div class="col col-2">{{ task.status }}</div>
-                                <div class="col col-3">{{ task.deadline }}</div>
+                                <div class="col col-1" ondblclick="editField(this, '{{ task.id }}', 'name')">{{ task.name }}</div>
+                                <div class="col col-2" ondblclick="editField(this, '{{ task.id }}', 'status')">{{ task.status }}</div>
+                                <div class="col col-3" ondblclick="editField(this, '{{ task.id }}', 'deadline')">{{ task.deadline }}</div>
                                 <div class="col col-4">{{ users_projects }}</div>
                                 <div class="col col-5">
                                     <div class="task-row-new-user" id="task-row-new-user" onclick="registerUserTask('{{ task.id }}')">
@@ -141,6 +141,79 @@
                     }
                 })
             });
+
+
+
+
+            function editField(element, taskId, fieldName) {
+                const currentValue = element.textContent.trim();
+                const inputType = fieldName === 'deadline' ? 'date' : 'text';
+            
+                const input = document.createElement('input');
+                input.type = inputType;
+                input.value = currentValue;
+                input.classList.add('edit-input');
+                input.onblur = function () {
+                    saveField(element, input.value, taskId, fieldName);
+                };
+                input.onkeydown = function (e) {
+                    if (e.key === 'Enter') {
+                        saveField(element, input.value, taskId, fieldName);
+                    }
+                };
+            
+                element.textContent = '';
+                element.appendChild(input);
+                input.focus();
+            }
+            
+            
+            function saveField(element, newValue, taskId, fieldName) {
+                element.textContent = newValue;
+            
+                // Enviar atualização ao backend via fetch
+                fetch(`/update-task/${taskId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCSRFToken(),  // Token CSRF
+                    },
+                    body: JSON.stringify({ [fieldName]: newValue }),
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Erro ao atualizar a tarefa');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.status === 'success') {
+                            console.log('Tarefa atualizada com sucesso');
+                        } else {
+                            console.error('Erro: ', data.message);
+                            alert('Erro ao salvar a tarefa');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erro na solicitação:', error);
+                        alert('Erro ao salvar a tarefa');
+                    });
+            }
+            
+            
+            // Função para obter o token CSRF do cookie
+            function getCSRFToken() {
+                const name = 'csrftoken';
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.startsWith(name + '=')) {
+                        return cookie.substring(name.length + 1);
+                    }
+                }
+                return null;
+            }
+            
         </script>
     </div>
 

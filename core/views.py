@@ -8,6 +8,11 @@ from django.views.generic import TemplateView, DeleteView
 from .forms import ProjectForm, TaskForm, UserTaskForm, UserProjectForm
 from .models import User, Project, Task, UserTask, UserProject
 
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
+
+
 class LoginView(LoginView):
     template_name = 'login.html'
 
@@ -99,8 +104,30 @@ class ProjectView(LoginRequiredMixin, TemplateView):
         context['user_project_form'] = user_project_form
         return self.render_to_response(context)
     
+    
     def get_context_data(self, **kwargs):
         # Corrigindo chamada ao método pai
         context = super().get_context_data(**kwargs)
         context['tasks'] = Task.objects.all()
         return context
+
+
+@csrf_exempt
+def update_task(request, task_id):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)  # Recebe os dados via JSON
+            field = list(data.keys())[0]  # Identifica o campo atualizado
+            value = data[field]  # Obtém o valor atualizado
+
+            # Atualiza a tarefa no banco de dados
+            from .models import Task
+            task = Task.objects.get(id=task_id)
+            setattr(task, field, value)  # Define o novo valor no campo correspondente
+            task.save()
+
+            return JsonResponse({'status': 'success', 'message': 'Tarefa atualizada com sucesso'})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
+    
+    return JsonResponse({'status': 'error', 'message': 'Método não permitido'}, status=405)
