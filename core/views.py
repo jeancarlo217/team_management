@@ -42,12 +42,15 @@ class ProjectView(LoginRequiredMixin, TemplateView):
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
         project_id = kwargs.get('project_id')
+        users_projects = UserProject.objects.filter(up_project=project_id)
         
         context['project_form'] = ProjectForm()
         context['task_form'] = TaskForm()
         context['user_project_form'] = UserProjectForm()
-        context['user_task_form'] = UserTaskForm()
-        
+        user_task_form = UserTaskForm()
+        user_task_form.fields['ut_user'].queryset = User.objects.filter(id__in=UserProject.objects.filter(up_project=project_id).values('up_user'))
+        context['user_task_form'] = user_task_form
+
         context['project_id'] = project_id
         context['user_type'] = request.user.tipo
         
