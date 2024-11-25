@@ -115,9 +115,15 @@ class ProjectView(LoginRequiredMixin, TemplateView):
     
     
     def get_context_data(self, **kwargs):
-        # Corrigindo chamada ao método pai
         context = super().get_context_data(**kwargs)
-        context['tasks'] = Task.objects.all()
+        tasks = Task.objects.all()
+        status = {'pending': 'Pendente', 'in_progress': 'Em Progresso', 'completed': 'Finalizada'}
+
+        for task in tasks:
+            task.status = status[task.status]
+        
+        context['tasks'] = tasks
+
         return context
 
 
