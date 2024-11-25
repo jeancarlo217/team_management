@@ -1,4 +1,4 @@
-<div class="modal modal-container" id="modal-new-user-project" style="--m-background: rgba(0, 0, 0, 0.5);">
+<div class="modal modal-container" id="modal-new-user-project-{{ project.id }}" style="--m-background: rgba(0, 0, 0, 0.5);">
     <div class="container-form">
         <div class="text">
             Usuários
@@ -17,6 +17,7 @@
                 </div>
 
             </div>
+            <input type="hidden" name="{{ user_project_form.up_project.html_name }}" value="{{ project.id }}">
 
             <button type="submit" class="btn-form">Salvar</button>
         </form>

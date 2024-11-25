@@ -744,11 +744,13 @@ form .form-row .textarea {
   bottom: 10px;
   font-size: 15px;
   transition: all 0.3s ease;
+  color: black;
 }
 
 .textarea label {
   width: 100%;
   bottom: 40px;
+  color: black;
 }
 
 .input-data .custom-input, .select-data .custom-select, .textarea textarea {
@@ -792,7 +794,7 @@ form .form-row .textarea {
   appearance: none;
   font: inherit;
   background: url(https://upload.wikimedia.org/wikipedia/commons/9/9d/Caret_down_font_awesome_whitevariation.svg) no-repeat right 0.8em center / 1.4em, linear-gradient(to left, #333 3em, transparent 3em);
-  color: inherit;
+  color: black;
   cursor: pointer;
 }
 

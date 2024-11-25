@@ -73,29 +73,38 @@ class ProjectView(LoginRequiredMixin, TemplateView):
                 task_form = task_form.save(commit=False)
                 task_form.project = project_instance
                 task_form.save()
-                return redirect('project_id', project_id=project_id)
+                try:
+                    return redirect('project_id', project_id=project_id)
+                except:
+                    return redirect('project')
 
             
         elif 'up_user' in request.POST:
-            project_instance = Project.objects.get(id=project_id)
             if user_project_form.is_valid():
-                user_project_form = user_project_form.save(commit=False)
-                user_project_form.up_project = project_instance
                 user_project_form.save()
 
-            return redirect('project_id', project_id=project_id)
+            try:
+                return redirect('project_id', project_id=project_id)
+            except:
+                return redirect('project')
         
         elif 'ut_user' in request.POST:
             if user_task_form.is_valid():
                 user_task_form.save()
 
-            return redirect('project_id', project_id=project_id)
+            try:
+                return redirect('project_id', project_id=project_id)
+            except:
+                return redirect('project')
         
         else:
             if project_form.is_valid():
                 # Salva o formulário de projeto
                 project_form.save()
-            return redirect('project')
+            try:
+                return redirect('project_id', project_id=project_id)
+            except:
+                return redirect('project')
 
         # Caso não seja válido, renderize novamente a página
         context = self.get_context_data(**kwargs)

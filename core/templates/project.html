@@ -23,7 +23,7 @@
                             </a>
 
                             {% if user_type == 'super' %}
-                                <div class="project-card-new-user" id="project-card-new-user">
+                                <div class="project-card-new-user" id="project-card-new-user" onclick="registerUserProject('{{ project.id }}')">
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" width="128px" height="128px" viewBox="0 0 128 128" enable-background="new 0 0 128 128" xml:space="preserve">
                                         <g>
                                             <g>
@@ -32,10 +32,12 @@
                                         </g>
                                     </svg>
                                 </div>
-                            {% endif %}
-                            
+
+                                {% endif %}
+                                
+                            </div>
                         </div>
-                    </div>
+                        {% include 'user_project_form.html' %}
                     {% endfor %}
 
                 {% if user_type == 'super' %}
@@ -90,8 +92,6 @@
 
         {% include 'new_task_modal.html' %}
 
-        {% include 'user_project_form.html' %}
-
 
         <script>
             const newProject = document.getElementById('new-project-btn');
@@ -122,11 +122,10 @@
             };
 
 
-            if(projectCardNewUser) {
-                projectCardNewUser.addEventListener('click', function() {
-                    document.getElementById('modal-new-user-project').style.display = 'flex';
-                });
-            };
+            function registerUserProject(id) {
+                complete_id = 'modal-new-user-project-' + id
+                document.getElementById(complete_id).style.display = 'flex';
+            }
 
             function registerUserTask(id) {
                 complete_id = 'modal-new-user-task-' + id
