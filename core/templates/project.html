@@ -60,9 +60,13 @@
                 <ul class="responsive-table" id="task-table-body">
                     {% for task in tasks %}
                         {% if task.project_id == project_id %}
-                            <li class="table-row" name="{{ task.id }}" onclick="selectTask('{{ task.id }}')">
+                            <li class="table-row" name="{{ task.id }}" onclick="toggleTaskDetails(this, '{{ task.id }}', '{{ project_id }}')">
                                 <div class="col col-1" ondblclick="editField(this, '{{ task.id }}', 'name')">{{ task.name }}</div>
-                                <div class="col col-2" ondblclick="editField(this, '{{ task.id }}', 'status')">{{ task.status }}</div>
+
+                                <div class="col col-2" ondblclick="editSelectField(this, '{{ task.id }}', 'status', { 'pending': 'Pendente', 'in_progress': 'Em Progresso', 'completed': 'Concluída' })">
+                                    {{ task.get_status_display }}
+                                </div>
+
                                 <div class="col col-3" ondblclick="editField(this, '{{ task.id }}', 'deadline')">{{ task.deadline }}</div>
                                 <div class="col col-4">{{ users_projects }}</div>
                                 <div class="col col-5">
@@ -74,9 +78,21 @@
                                         </svg>
                                     </div>
                                 </div>
-
                             </li>
                             {% include 'user_task_form.html' %}
+
+                            <div class="task-details hidden" id="task-details-{{ task.id }}">
+                                <div class="task-description">
+                                    <label for="description-{{ task.id }}">Descrição:</label>
+                                    <p id="description-{{ task.id }}" ondblclick="editField(this, '{{ task.id }}', 'description')">{{ task.description }}</p>
+                                </div>
+                                <div id="chat-box-{{ task.id }}" class="chat-box" style="display: none;">
+                                    <div class="chat-messages" id="chat-messages-{{ task.id }}"></div>
+                                    <textarea id="chat-input-{{ task.id }}" class="chat-input" placeholder="Digite sua mensagem..."></textarea>
+                                    <button onclick="sendMessage('{{ task.id }}', '{{ project_id }}')">Enviar</button>
+                                </div>
+                            </div>
+
                         {% endif %}
                     {% endfor %}
                 </ul>
@@ -100,13 +116,6 @@
             const projectCards = document.querySelectorAll('.project-card');
             const projectCardNewUser = document.getElementById('project-card-new-user');
             const taskRowNewUser = document.getElementById('task-row-new-user');
-
-
-            function selectTask(name) {
-                // Atualizar estilo de seleção de tarefa
-                document.querySelectorAll('.table-row').forEach(row => row.classList.remove('selected-task'));
-                document.getElementsByName(name)[0].classList.add('selected-task');
-            }
 
 
             if(newProject) {
@@ -143,6 +152,33 @@
             });
 
 
+            function editSelectField(element, taskId, fieldName, options) {
+                const currentDisplayValue = element.textContent.trim();
+                const reverseOptions = Object.fromEntries(Object.entries(options).map(([key, value]) => [value, key]));
+                const currentValue = reverseOptions[currentDisplayValue]; // Obtem o valor do banco
+
+                const select = document.createElement('select');
+                select.classList.add('edit-select');
+
+                for (const [key, value] of Object.entries(options)) {
+                    const opt = document.createElement('option');
+                    opt.value = key;
+                    opt.textContent = value;
+                    if (key === currentValue) opt.selected = true;
+                    select.appendChild(opt);
+                }
+
+                select.onchange = function () {
+                    saveField(element, select.value, taskId, fieldName);
+                };
+                select.onblur = function () {
+                    saveField(element, select.value, taskId, fieldName);
+                };
+
+                element.textContent = '';
+                element.appendChild(select);
+                select.focus();
+            }
 
 
             function editField(element, taskId, fieldName) {
@@ -169,8 +205,9 @@
             
             
             function saveField(element, newValue, taskId, fieldName) {
+                // Atualiza o conteúdo do elemento na interface
                 element.textContent = newValue;
-            
+
                 // Enviar atualização ao backend via fetch
                 fetch(`/update-task/${taskId}/`, {
                     method: 'POST',
@@ -189,6 +226,8 @@
                     .then(data => {
                         if (data.status === 'success') {
                             console.log('Tarefa atualizada com sucesso');
+                            // Recarregar a página após a atualização bem-sucedida
+                            location.reload();
                         } else {
                             console.error('Erro: ', data.message);
                             alert('Erro ao salvar a tarefa');
@@ -199,8 +238,8 @@
                         alert('Erro ao salvar a tarefa');
                     });
             }
-            
-            
+
+                      
             // Função para obter o token CSRF do cookie
             function getCSRFToken() {
                 const name = 'csrftoken';
@@ -213,6 +252,54 @@
                 }
                 return null;
             }
+
+
+            function toggleTaskDetails(rowElement, taskId) {
+                const details = document.getElementById(`task-details-${taskId}`);
+                details.classList.toggle('hidden');
+                rowElement.classList.toggle('selected-task');
+                const chatBox = document.getElementById(`chat-box-${taskId}`);
+                chatBox.style.display = chatBox.style.display === 'none' ? 'block' : 'none';
+                loadMessages(taskId);
+            }
+
+            
+            function loadMessages(taskId) {
+                fetch(`/chat/${taskId}/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const chatMessages = document.getElementById(`chat-messages-${taskId}`);
+                        chatMessages.innerHTML = '';
+                        data.messages.forEach(msg => {
+                            const messageElement = document.createElement('div');
+                            messageElement.textContent = `${msg.sender}: ${msg.content}`;
+                            chatMessages.appendChild(messageElement);
+                        });
+                    });
+            }
+
+            function sendMessage(taskId) {
+                const chatInput = document.getElementById(`chat-input-${taskId}`);
+                const message = chatInput.value;
+
+                fetch(`/chat/${taskId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCSRFToken(),
+                    },
+                    body: JSON.stringify({ content: message }),
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            chatInput.value = '';
+                            loadMessages(taskId);
+                        }
+                    });
+            }
+
+
             
         </script>
     </div>

@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView, DeleteView
 
 from .forms import ProjectForm, TaskForm, UserTaskForm, UserProjectForm
-from .models import User, Project, Task, UserTask, UserProject
+from .models import User, Project, Task, UserTask, UserProject, Message
 
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -134,18 +134,59 @@ class ProjectView(LoginRequiredMixin, TemplateView):
 def update_task(request, task_id):
     if request.method == 'POST':
         try:
-            data = json.loads(request.body)  # Recebe os dados via JSON
-            field = list(data.keys())[0]  # Identifica o campo atualizado
-            value = data[field]  # Obtém o valor atualizado
+            data = json.loads(request.body)
+            field = list(data.keys())[0]
+            value = data[field]
 
-            # Atualiza a tarefa no banco de dados
-            from .models import Task
+            # Validação para o campo de status
+            if field == 'status':
+                valid_statuses = dict(Task.STATUS_CHOICES).keys()
+                if value not in valid_statuses:
+                    return JsonResponse({'status': 'error', 'message': 'Status inválido'}, status=400)
+
+            # Atualiza o campo no banco de dados
             task = Task.objects.get(id=task_id)
-            setattr(task, field, value)  # Define o novo valor no campo correspondente
+            setattr(task, field, value)
             task.save()
 
             return JsonResponse({'status': 'success', 'message': 'Tarefa atualizada com sucesso'})
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
-    
+
     return JsonResponse({'status': 'error', 'message': 'Método não permitido'}, status=405)
+
+
+@csrf_exempt
+def chat_messages(request, task_id):
+    if request.method == 'GET':
+        # Recuperar mensagens do projeto
+        messages = Message.objects.filter(task=task_id).order_by('timestamp')
+        data = [
+            {
+                'sender': msg.sender.first_name,
+                'content': msg.content,
+                'timestamp': msg.timestamp.strftime('%Y-%m-%d %H:%M:%S')
+            }
+            for msg in messages
+        ]
+        return JsonResponse({'messages': data})
+
+    elif request.method == 'POST':
+        data = json.loads(request.body)
+        content = data.get('content')
+        task = Task.objects.get(id=task_id)
+        if not content:
+            return JsonResponse({'error': 'Message content is required'}, status=400)
+
+        try:
+            Message.objects.create(
+                sender=request.user,
+                task=task,
+                content=content
+            )
+            return JsonResponse({'status': 'success'})
+        
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+
+    return JsonResponse({'error': 'Invalid request'}, status=400)

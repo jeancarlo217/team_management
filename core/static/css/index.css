@@ -802,3 +802,46 @@ select, input:focus {
   outline: none;
   border: none;
 }
+
+.task-details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-top: 1px solid #ccc;
+}
+.task-details.hidden {
+  display: none;
+}
+.task-description p {
+  margin: 5px 0;
+  padding: 5px;
+  border: 1px dashed #ccc;
+  cursor: pointer;
+}
+.chat-box {
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.chat-messages {
+  max-height: 200px;
+  overflow-y: auto;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+.chat-input {
+  width: calc(100% - 80px);
+  height: 40px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 5px;
+}

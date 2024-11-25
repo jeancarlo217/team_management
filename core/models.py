@@ -96,3 +96,13 @@ class UserTask(models.Model):
 
     def __str__(self):
         return f"{self.ut_user.first_name} - {self.ut_task.name}"
+
+
+class Message(models.Model):
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sent_messages")
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)
+    content = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.sender.username} - {self.timestamp}"
