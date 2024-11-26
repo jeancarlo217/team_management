@@ -607,6 +607,7 @@ a {
 .responsive-table .table-header, .responsive-table .table-row {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 15px;
   border-radius: 3px;
 }
@@ -820,28 +821,77 @@ select, input:focus {
   border: 1px dashed #ccc;
   cursor: pointer;
 }
+
+
 .chat-box {
   margin-top: 10px;
-  padding: 10px;
+  padding: 15px;
   border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #f9f9f9;
+  border-radius: 10px;
+  background-color: #f7f8fa;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .chat-messages {
-  max-height: 200px;
+  max-height: 250px;
   overflow-y: auto;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   border: 1px solid #ddd;
-  padding: 10px;
-  border-radius: 8px;
-  background-color: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  background-color: #ffffff;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .chat-input {
-  width: calc(100% - 80px);
-  height: 40px;
+  width: calc(100% - 90px);
+  height: 45px;
   border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 8px;
+  font-size: 14px;
+  background-color: #f9f9f9;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.chat-input:focus {
+  border-color: #4caf50;
+}
+
+.chat-send-button {
+  height: 45px;
+  padding: 0 15px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.chat-send-button:hover {
+  background-color: #45a049;
+}
+
+/* Classe para mensagens individuais */
+.chat-message {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10px;
+  padding: 10px;
   border-radius: 8px;
-  padding: 5px;
+  font-size: 14px;
+  line-height: 1.5;
+  background-color: #f1f1f1;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+.chat-message.user {
+  background-color: #e0f7e9;
+  text-align: right;
+}
+.chat-message.content {
+  background-color: #f9f9f9;
+  text-align: left;
 }

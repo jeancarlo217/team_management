@@ -272,7 +272,18 @@
                         chatMessages.innerHTML = '';
                         data.messages.forEach(msg => {
                             const messageElement = document.createElement('div');
-                            messageElement.textContent = `${msg.sender}: ${msg.content}`;
+                            const senderElement = document.createElement('div');
+                            const contentElement = document.createElement('div');
+
+                            messageElement.classList.add('chat-message');
+                            senderElement.classList.add('user');
+                            contentElement.classList.add('content');
+
+                            senderElement.textContent = `${msg.sender}: `
+                            contentElement.textContent = `${msg.content}`
+
+                            messageElement.appendChild(senderElement);
+                            messageElement.appendChild(contentElement);
                             chatMessages.appendChild(messageElement);
                         });
                     });
