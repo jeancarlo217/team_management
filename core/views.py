@@ -159,13 +159,14 @@ def update_task(request, task_id):
 @csrf_exempt
 def chat_messages(request, task_id):
     if request.method == 'GET':
-        # Recuperar mensagens do projeto
         messages = Message.objects.filter(task=task_id).order_by('timestamp')
         data = [
             {
                 'sender': msg.sender.first_name,
+                'sender_type': msg.sender.tipo,
+                'actual_user': msg.sender == request.user,
                 'content': msg.content,
-                'timestamp': msg.timestamp.strftime('%Y-%m-%d %H:%M:%S')
+                'timestamp': msg.timestamp.strftime('%Y-%m-%d %H:%M:%S'),
             }
             for msg in messages
         ]

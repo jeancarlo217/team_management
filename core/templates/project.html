@@ -89,7 +89,7 @@
                                 <div id="chat-box-{{ task.id }}" class="chat-box" style="display: none;">
                                     <div class="chat-messages" id="chat-messages-{{ task.id }}"></div>
                                     <textarea id="chat-input-{{ task.id }}" class="chat-input" placeholder="Digite sua mensagem..."></textarea>
-                                    <button onclick="sendMessage('{{ task.id }}', '{{ project_id }}')">Enviar</button>
+                                    <button class="chat-send-button" onclick="sendMessage('{{ task.id }}', '{{ project_id }}')">Enviar</button>
                                 </div>
                             </div>
 
@@ -271,20 +271,34 @@
                         const chatMessages = document.getElementById(`chat-messages-${taskId}`);
                         chatMessages.innerHTML = '';
                         data.messages.forEach(msg => {
+                            const messageRow = document.createElement('div');
+                            messageRow.classList.add('message-row');
                             const messageElement = document.createElement('div');
+                            
                             const senderElement = document.createElement('div');
                             const contentElement = document.createElement('div');
+                            console.log(msg.actual_user);
+                            if (msg.actual_user) {
+                                messageRow.classList.add('actual-user');
+                            }
 
                             messageElement.classList.add('chat-message');
-                            senderElement.classList.add('user');
-                            contentElement.classList.add('content');
+                            if (msg.sender_type === 'super') {
+                                messageElement.classList.add('manager');
+                            } else {
+                                messageElement.classList.add('employee');
+                            }
+
+                            senderElement.classList.add('message-user');
+                            contentElement.classList.add('message-content');
 
                             senderElement.textContent = `${msg.sender}: `
                             contentElement.textContent = `${msg.content}`
 
                             messageElement.appendChild(senderElement);
                             messageElement.appendChild(contentElement);
-                            chatMessages.appendChild(messageElement);
+                            messageRow.appendChild(messageElement)
+                            chatMessages.appendChild(messageRow);
                         });
                     });
             }
