@@ -191,3 +191,16 @@ def chat_messages(request, task_id):
             return JsonResponse({'error': str(e)}, status=500)
 
     return JsonResponse({'error': 'Invalid request'}, status=400)
+
+
+class DeleteTask(DeleteView):
+    model = Task
+
+    def get(self, request, *args, **kwargs):
+        project_id = kwargs.get('project_id')
+        return self.post(request, *args, **kwargs)
+
+    def get_success_url(self):
+        project_id = self.kwargs.get('project_id')
+        print(project_id)
+        return reverse_lazy('project_id', kwargs={'project_id': project_id})

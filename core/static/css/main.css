@@ -567,6 +567,19 @@ a {
   width: 30px;
 }
 
+.task-row-delete {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: none;
+}
+.task-row-delete svg {
+  height: 30px;
+  width: 30px;
+}
+
 /* Botão Novo Projeto */
 .new-project-btn {
   padding: 10px;
@@ -634,6 +647,8 @@ a {
 }
 .col-5 {
   flex-basis: 10%;
+  display: flex;
+  justify-content: space-between;
 }
 
 /* Efeito hover para linhas da tabela */

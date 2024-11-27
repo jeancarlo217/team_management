@@ -77,9 +77,16 @@
                                             </g>
                                         </svg>
                                     </div>
+
+                                    <div class="task-row-delete" onclick="deleteTask()">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><defs><style>.cls-1{fill:none;}</style></defs><title/><g data-name="Layer 2" id="Layer_2"><path d="M4,29a1,1,0,0,1-.71-.29,1,1,0,0,1,0-1.42l24-24a1,1,0,1,1,1.42,1.42l-24,24A1,1,0,0,1,4,29Z"/><path d="M28,29a1,1,0,0,1-.71-.29l-24-24A1,1,0,0,1,4.71,3.29l24,24a1,1,0,0,1,0,1.42A1,1,0,0,1,28,29Z"/></g><g id="frame"><rect class="cls-1"/></g></svg>
+                                    </div>
                                 </div>
                             </li>
+                            
                             {% include 'user_task_form.html' %}
+
+                            {% include 'delete_task.html' %}
 
                             <div class="task-details hidden" id="task-details-{{ task.id }}">
                                 <div class="task-description">
@@ -108,7 +115,6 @@
         {% include 'new_project_modal.html' %}
 
         {% include 'new_task_modal.html' %}
-
 
         <script>
             const newProject = document.getElementById('new-project-btn');
@@ -140,6 +146,10 @@
             function registerUserTask(id) {
                 complete_id = 'modal-new-user-task-' + id
                 document.getElementById(complete_id).style.display = 'flex';
+            }
+
+            function deleteTask() {
+                document.getElementById('modal-delete-task').style.display = 'flex';
             }
 
             window.addEventListener('click', function(event) {
