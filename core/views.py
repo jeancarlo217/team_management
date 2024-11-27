@@ -52,6 +52,7 @@ class ProjectView(LoginRequiredMixin, TemplateView):
         context['user_task_form'] = user_task_form
 
         context['project_id'] = project_id
+        print(project_id)
         context['user_type'] = request.user.tipo
         
         if request.user.tipo in ['super']:
@@ -204,3 +205,11 @@ class DeleteTask(DeleteView):
         project_id = self.kwargs.get('project_id')
         print(project_id)
         return reverse_lazy('project_id', kwargs={'project_id': project_id})
+    
+
+class DeleteProject(DeleteView):
+    model = Project
+    success_url = reverse_lazy('project')
+
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)

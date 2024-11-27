@@ -45,9 +45,14 @@
                     <button class="new-project-btn" id="new-project-btn">+ Adicionar um cartão</button>
                 {% endif %}
             </div>
-    
             <!-- Tabela de Tarefas -->
             <div class="task-table-container" id="task-table-container">
+                {% if project_id %}
+                    <label class="delete-project" onclick="deleteTask()">Detetar Projeto</label>
+
+                    {% include 'delete_project.html' %}
+
+                {% endif %}
                 <ul class="responsive-table">
                     <li class="table-header">
                         <div class="col col-1">Nome</div>
@@ -83,7 +88,7 @@
                                     </div>
                                 </div>
                             </li>
-                            
+
                             {% include 'user_task_form.html' %}
 
                             {% include 'delete_task.html' %}
@@ -104,7 +109,7 @@
                     {% endfor %}
                 </ul>
                 <p>{{ users_tasks }}</p>
-                {% if user_type == 'super' %}
+                {% if user_type == 'super' and project_id %}
                     <!-- Botão de Nova Task -->
                     <div class="new-task-btn" id="new-task-btn">+ Nova Tarefa</div>
                 {% endif %}
@@ -150,6 +155,10 @@
 
             function deleteTask() {
                 document.getElementById('modal-delete-task').style.display = 'flex';
+            }
+
+            function deleteTask() {
+                document.getElementById('modal-delete-project').style.display = 'flex';
             }
 
             window.addEventListener('click', function(event) {

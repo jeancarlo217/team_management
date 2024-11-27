@@ -580,6 +580,11 @@ a {
   width: 30px;
 }
 
+.delete-project:hover {
+  cursor: pointer;
+  color: #07641B;
+}
+
 /* Botão Novo Projeto */
 .new-project-btn {
   padding: 10px;

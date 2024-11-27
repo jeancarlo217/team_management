@@ -1,0 +1,17 @@
+<div class="modal modal-container" id="modal-delete-project" style="--m-background: rgba(0, 0, 0, 0.5);">
+    <div class="container-form" style="display: flex; flex-direction: column; justify-content: space-around; padding-bottom: 10px;">
+        
+        <form action="{% url 'delete_project' project_id %}" method="post" style="display:inline; background-color: transparent;">
+            <div class="form-row" style="height: 100px;">
+            
+                <label>Deseja realmente excluir esse projeto?</label>
+                <br>
+                
+            </div>
+            {% csrf_token %}
+            <button class="chat-send-button" id="card-delete" type="submit">
+                <label>Excluir</label>
+            </button>
+        </form>
+    </div>
+</div>

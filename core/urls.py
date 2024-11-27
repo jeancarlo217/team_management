@@ -1,6 +1,6 @@
 from django.urls import path
 from django.contrib.auth.views import LogoutView
-from .views import LoginView, IndexView, ProjectView, update_task, chat_messages, DeleteTask
+from .views import LoginView, IndexView, ProjectView, update_task, chat_messages, DeleteTask, DeleteProject
 
 urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
@@ -13,4 +13,5 @@ urlpatterns = [
     path('chat/<int:task_id>/', chat_messages, name='chat_messages'),
 
     path('delete-task/<int:pk>/<int:project_id>/', DeleteTask.as_view(), name='delete_task'),
+    path('delete-project/<int:pk>/', DeleteProject.as_view(), name='delete_project'),
 ]
