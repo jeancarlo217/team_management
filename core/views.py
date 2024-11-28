@@ -11,6 +11,7 @@ from .models import User, Project, Task, UserTask, UserProject, Message
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
+from django.db.models import Count
 
 
 class LoginView(LoginView):
@@ -25,7 +26,7 @@ class LoginView(LoginView):
 class IndexView(LoginRequiredMixin, TemplateView):
     template_name = 'index.html'
     login_url = '/login'
-    
+
     def get(self, request, *args, **kwargs):
         if request.user.tipo != 'super':
             return redirect('project')
@@ -33,6 +34,36 @@ class IndexView(LoginRequiredMixin, TemplateView):
         context = self.get_context_data(**kwargs)
         context['user_type'] = request.user.tipo
         return self.render_to_response(context)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Dados para os gráficos existentes
+        projects = Project.objects.all()
+        labels = [project.name for project in projects]
+        data = [Task.objects.filter(project=project).count() for project in projects]
+
+        statuses = {
+            'pending': [Task.objects.filter(project=project, status='pending').count() for project in projects],
+            'in_progress': [Task.objects.filter(project=project, status='in_progress').count() for project in projects],
+            'completed': [Task.objects.filter(project=project, status='completed').count() for project in projects],
+        }
+
+        # Dados para o gráfico de desempenho
+        users = User.objects.all()
+        performance_labels = [user.first_name for user in users]
+        performance_data = [UserTask.objects.filter(ut_user=user).count() for user in users]
+
+        # Passa os dados para o template
+        context['labels'] = labels
+        context['data'] = data
+        context['statuses'] = statuses
+        context['performance_labels'] = performance_labels
+        context['performance_data'] = performance_data
+
+        return context
+
+
 
 
 class ProjectView(LoginRequiredMixin, TemplateView):
@@ -52,7 +83,6 @@ class ProjectView(LoginRequiredMixin, TemplateView):
         context['user_task_form'] = user_task_form
 
         context['project_id'] = project_id
-        print(project_id)
         context['user_type'] = request.user.tipo
         
         if request.user.tipo in ['super']:

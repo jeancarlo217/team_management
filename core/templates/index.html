@@ -1,17 +1,177 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
-
-  {% include 'base.html' %}
-
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <title>Gráficos Dinâmicos</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        .charts-container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 20px;
+          gap: 40px; /* Espaço maior entre linhas */
+        }
+        .chart-row {
+          display: flex;
+          width: 100%;
+          justify-content: space-evenly;
+          gap: 20px;
+        }
+        .chart-box {
+          width: 40%; /* Cada gráfico ocupa 45% da largura da linha */
+          aspect-ratio: 2; /* Gráficos mais largos */
+        }
+        canvas {
+            width: 100% !important; /* Gráficos se adaptam ao tamanho da caixa */
+            height: 100% !important;
+        }
+    </style>
+</head>
 <body>
+    {% include 'sidebar.html' %}
+    <h4 style="text-align: center; margin-bottom: 20px;">Gráficos de Desempenho e Tarefas</h4>
 
-  {% include 'sidebar.html' %}
+    <!-- Contêiner para os gráficos -->
+    <div class="charts-container">
+        <!-- Primeira linha de gráficos -->
+        <div class="chart-row">
+            <div class="chart-box">
+                <canvas id="tasksBarChart"></canvas>
+            </div>
+            <div class="chart-box">
+                <canvas id="tasksPieChart"></canvas>
+            </div>
+        </div>
+        <!-- Segunda linha de gráficos -->
+        <div class="chart-row">
+            <div class="chart-box">
+                <canvas id="tasksLineChart"></canvas>
+            </div>
+            <div class="chart-box">
+                <canvas id="performanceChart"></canvas>
+            </div>
+        </div>
+    </div>
 
+    <script>
+        // Dados genéricos para gráficos vazios
+        const labels = {{ labels|default:"[]"|safe }};
+        const data = {{ data|default:"[]"|safe }};
+        const statuses = {{ statuses|default:"[]"|safe }};
+        const performanceLabels = {{ performance_labels|default:"[]"|safe }};
+        const performanceData = {{ performance_data|default:"[]"|safe }};
 
-  
+        // Função para criar os gráficos
+        function generateCharts() {
+            createBarChart('tasksBarChart', labels, data);
+            createPieChart('tasksPieChart', labels, data);
+            createLineChart('tasksLineChart', labels, data);
+            createPerformanceChart('performanceChart', performanceLabels, performanceData);
+        }
 
+        function createBarChart(canvasId, labels, data) {
+            const ctx = document.getElementById(canvasId).getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels.length ? labels : ["Sem dados"],
+                    datasets: [{
+                        label: 'Tarefas por Projeto',
+                        data: data.length ? data : [0],
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1,
+                    }],
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: { beginAtZero: true },
+                    },
+                },
+            });
+        }
 
+        function createPieChart(canvasId, labels, data) {
+            const ctx = document.getElementById(canvasId).getContext('2d');
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: labels.length ? labels : ["Sem dados"],
+                    datasets: [{
+                        data: data.length ? data : [1],
+                        backgroundColor: [
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                        ],
+                    }],
+                },
+                options: {
+                    responsive: true,
+                },
+            });
+        }
+
+        function createLineChart(canvasId, labels, data) {
+            const ctx = document.getElementById(canvasId).getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels.length ? labels : ["Sem dados"],
+                    datasets: [{
+                        label: 'Evolução de Tarefas',
+                        data: data.length ? data : [0],
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        fill: true,
+                    }],
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: { beginAtZero: true },
+                    },
+                },
+            });
+        }
+
+        function createPerformanceChart(canvasId, performanceLabels, performanceData) {
+            const ctx = document.getElementById(canvasId).getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: performanceLabels.length ? performanceLabels : ["Sem dados"],
+                    datasets: [{
+                        label: 'Tarefas Realizadas',
+                        data: performanceData.length ? performanceData : [0],
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1,
+                    }],
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: { beginAtZero: true },
+                    },
+                },
+            });
+        }
+
+        // Chama os gráficos ao carregar a página
+        window.onload = generateCharts;
+    </script>
 </body>
 </html>
