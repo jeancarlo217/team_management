@@ -12,7 +12,7 @@
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
+            background-color: #3b3b3b;
             height: 100%;
             width: 100%;
         }
@@ -37,7 +37,7 @@
 
         .chart-box.large {
             position: relative;
-            width: 50%; /* Ocupa o espaço de dois gráficos */
+            width: 55%; /* Ocupa o espaço de dois gráficos */
             background-color: #fff;
             border-radius: 12px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -71,20 +71,23 @@
             height: 100% !important;
         }
 
-        h4 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #333;
-            font-weight: 600;
-        }
     </style>
 </head>
 <body>
     {% include 'sidebar.html' %}
 
-    <!-- Contêiner para os gráficos -->
+
     <div class="charts-container">
-        <!-- Primeira linha de gráficos -->
+
+        <div class="chart-row">
+            <div class="chart-box large">
+                <canvas id="tasksLineChart"></canvas>
+            </div>
+            <div class="chart-box large">
+                <canvas id="performanceChart"></canvas>
+            </div>
+        </div>
+        
         <div class="chart-row">
             <div class="chart-box large bar-chart">
                 <canvas id="tasksBarChart"></canvas>
@@ -93,15 +96,7 @@
                 <canvas id="tasksPieChart"></canvas>
             </div>
         </div>
-        <!-- Segunda linha de gráficos -->
-        <div class="chart-row">
-            <div class="chart-box large">
-                <canvas id="tasksLineChart"></canvas>
-            </div>
-            <div class="chart-box small">
-                <canvas id="performanceChart"></canvas>
-            </div>
-        </div>
+
     </div>
 
     <script>

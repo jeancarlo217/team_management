@@ -33,13 +33,3 @@ class ProjectAdmin(admin.ModelAdmin):
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
     list_display = ('name', 'description', 'status', 'deadline')
-
-
-@admin.register(UserProject)
-class UserProjectAdmin(admin.ModelAdmin):
-    list_display = ('up_user', 'up_project')
-    
-
-@admin.register(UserTask)
-class UserTaskAdmin(admin.ModelAdmin):
-    list_display = ('ut_user', 'ut_task')
