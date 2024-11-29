@@ -37,6 +37,19 @@
 
         .chart-box.large {
             position: relative;
+            width: 43%; /* Ocupa o espaço de dois gráficos */
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .chart-box.larger {
+            position: relative;
             width: 55%; /* Ocupa o espaço de dois gráficos */
             background-color: #fff;
             border-radius: 12px;
@@ -89,7 +102,7 @@
         </div>
         
         <div class="chart-row">
-            <div class="chart-box large bar-chart">
+            <div class="chart-box larger">
                 <canvas id="tasksBarChart"></canvas>
             </div>
             <div class="chart-box small">
