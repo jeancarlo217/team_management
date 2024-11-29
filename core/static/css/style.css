@@ -606,8 +606,10 @@ a {
   width: 79%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   position: relative;
+  overflow-y: auto;
 }
-.responsive-table .table-header, .responsive-table .table-row {
+.responsive-table .table-header,
+.responsive-table .table-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -621,6 +623,9 @@ a {
   text-transform: uppercase;
   letter-spacing: 0.03em;
   color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
 .table-row {
