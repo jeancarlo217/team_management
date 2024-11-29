@@ -48,7 +48,7 @@
             <!-- Tabela de Tarefas -->
             <div class="task-table-container" id="task-table-container">
                 {% if project_id %}
-                    <label class="delete-project" onclick="deleteTask()">Detetar Projeto</label>
+                    <label class="delete-project" onclick="deleteProject()">Detetar Projeto</label>
 
                     {% include 'delete_project.html' %}
 
@@ -73,7 +73,13 @@
                                 </div>
 
                                 <div class="col col-3" ondblclick="editField(this, '{{ task.id }}', 'deadline')">{{ task.deadline }}</div>
-                                <div class="col col-4">{{ users_projects }}</div>
+                                <div class="col col-4">
+                                    {% for i in users_tasks %}
+                                        {% if i.ut_task == task %}
+                                            {{ i.ut_user }};
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
                                 <div class="col col-5">
                                     <div class="task-row-new-user" id="task-row-new-user" onclick="registerUserTask('{{ task.id }}')">
                                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 128 128" xml:space="preserve">
@@ -108,9 +114,7 @@
                         {% endif %}
                     {% endfor %}
                 </ul>
-                <p>{{ users_tasks }}</p>
                 {% if user_type == 'super' and project_id %}
-                    <!-- Botão de Nova Task -->
                     <div class="new-task-btn" id="new-task-btn">+ Nova Tarefa</div>
                 {% endif %}
             </div>
@@ -157,7 +161,7 @@
                 document.getElementById('modal-delete-task').style.display = 'flex';
             }
 
-            function deleteTask() {
+            function deleteProject() {
                 document.getElementById('modal-delete-project').style.display = 'flex';
             }
 

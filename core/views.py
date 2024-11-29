@@ -64,8 +64,6 @@ class IndexView(LoginRequiredMixin, TemplateView):
         return context
 
 
-
-
 class ProjectView(LoginRequiredMixin, TemplateView):
     template_name = 'project.html'
     login_url = '/login'
@@ -84,6 +82,7 @@ class ProjectView(LoginRequiredMixin, TemplateView):
 
         context['project_id'] = project_id
         context['user_type'] = request.user.tipo
+        context['users_tasks'] = UserTask.objects.filter(ut_task__project_id=project_id)
         
         if request.user.tipo in ['super']:
             context['projects'] = Project.objects.all()
