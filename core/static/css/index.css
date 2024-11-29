@@ -74,6 +74,27 @@ html::-webkit-scrollbar {
   cursor: pointer;
 }
 
+.form-control {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #4caf50;
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+.form-control:disabled {
+  background-color: #f5f5f5;
+  color: #999;
+  cursor: not-allowed;
+}
+
 .system-page {
   height: 100vh;
   display: flex;
@@ -139,10 +160,6 @@ p {
   font-size: var(--paragraph);
 }
 
-/* =========
-  Buttons
- ========= */
-
 button {
   padding: .8em 1.2em;
   border: 1px solid hsl(var(--black));
@@ -152,26 +169,11 @@ button {
   outline: none;
 }
 
-/* =======
-  Lists
- ======= */
 
 ul, ol {
   margin: 1em 0;
 }
 
-
-/* =========
-  Classes
- ========= */
-
-/* ================
-  Global classes
- ================ */
-
-/* =========
-  Flexbox
- ========= */
 
 .flexbox {
   display: flex;
@@ -226,17 +228,11 @@ ul, ol {
   align-items: center;
 }
 
-/* =========
-  Classes
- ========= */
 
 .view-width {
   width: 70%;
 }
 
-/* ========
-  Navbar
- ======== */
 
 #navbar {
   top: 0;
@@ -326,9 +322,6 @@ ul, ol {
   opacity: 1;
 }
 
-/* ======
-  Main
- ====== */
 
 #main {
   margin: 0 0 0 5em;
@@ -343,9 +336,6 @@ ul, ol {
   max-width: 80%;
 }
 
-/* =============
-  ::Selectors
- ============= */
 
 /* Selection */
 ::selection {
@@ -363,14 +353,6 @@ ul, ol {
 ::-webkit-scrollbar-thumb {
   background-color: hsl(var(--primary));
 }
-
-/* ===============
-  5. @keyframes
- =============== */
-
-/* ==============
-  @media rules
- ============== */
 
 @media only screen and (max-width: 1660px) {
   :root {
